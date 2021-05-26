@@ -1,27 +1,11 @@
----
-layout: single
-author_profile: true
-excerpt: "Robotics and machine learning is my passion"
-header:
-  overlay_color: "#333"
----
+<!DOCTYPE html>
+<html>
+<body>
 
-{% include base_path %}
+<h1>My First Heading</h1>
 
+<p>My first paragraph.</p>
 
-{% include base_path %}
-{% include feature_row id="row2" %}
+</body>
+</html>
 
-<div class="grid__wrapper">
-  {% for post in site.portfolio %}
-    {% include archive-single.html type="grid" %}
-  {% endfor %}
-</div>
-
-{% comment %}
-{% for post in paginator.posts %}
-  {% include archive-single.html %}
-{% endfor %}
-{% endcomment %}
-
-{% include paginator.html %}
