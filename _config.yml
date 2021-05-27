@@ -97,7 +97,7 @@ author:
   name             : "Guillaume de Chambrier"
   avatar           : "images/bio-photo-2.jpg"
   bio              :
-  location         : 46.5196535,6.632
+  location         : "London"
   email            : "chambrierg@gmail.com"
   links:
     - label: "Email"
@@ -114,7 +114,7 @@ author:
       # url: "https://facebook.com/"
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
-      # url: "https://github.com/"
+      url: "https://github.com/gpldecha"
     - label: "Instagram"
       icon: "fab fa-fw fa-instagram"
       # url: "https://instagram.com/"
