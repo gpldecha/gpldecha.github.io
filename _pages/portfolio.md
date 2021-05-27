@@ -1,15 +1,10 @@
 ---
-layout: archive
-title: "Projects"
-permalink: /projects/
-author_profile: false
+title: Portfolio
+layout: collection
+permalink: /portfolio/
+collection: portfolio
+entries_layout: grid
+classes: wide
 ---
 
-{% include base_path %}
-{% include feature_row id="row2" %}
-
-<div class="grid__wrapper">
-  {% for post in site.portfolio %}
-    {% include archive-single.html type="grid" %}
-  {% endfor %}
-</div>
+Sample document listing for the collection `_portfolio`.
