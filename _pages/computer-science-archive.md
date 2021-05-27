@@ -1,8 +1,8 @@
 ---
-layout: single
 title: "Computer science"
+layout: single
 permalink: /cs/
-
+collection: cs
 header:
   overlay_image: code2.jpg
   caption: "Photo credit: [**Unsplash**](http://feelgrafix.com/997342-code.html)"
