@@ -1,0 +1,84 @@
+I"=<!-- KaTeX -->
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+
+<h2 id="resources">Resources</h2>
+
+<p><a href="http://www.1-4-5.net/~dmm/ml/policy_gradient_methods_for_robotics.pdf">Policy gradient methods for robotics </a>
+<a href="http://www.argmin.net/">arg min blog: a blog of minimum value</a></p>
+
+<h2 id="notation">Notation</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>variable</th>
+      <th style="text-align: center">dimension</th>
+      <th>name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>\(\tau\)</td>
+      <td style="text-align: center">\(s_0, u_0, \dots, s_{H-1}, u_{H-1}\)</td>
+      <td>trajectory</td>
+    </tr>
+    <tr>
+      <td>\(p(s_{t+1}|s_t, u_t)\)</td>
+      <td style="text-align: center">\(\mathbb{R}\)</td>
+      <td>state transition  dynamical model</td>
+    </tr>
+    <tr>
+      <td>\(\pi_{\theta}(u_t|s_t)\)</td>
+      <td style="text-align: center">\(\mathbb{R}\)</td>
+      <td>policy</td>
+    </tr>
+    <tr>
+      <td>\(P_{\theta}(\tau)\)</td>
+      <td style="text-align: center">\(p(s_0)\prod_{t=0}^{H-1} p(s_{t+1}|s_t, u_t)\, \pi_{\theta}(u_t|s_t)\)</td>
+      <td>probability of a trajectory</td>
+    </tr>
+    <tr>
+      <td>\(R(\tau)\)</td>
+      <td style="text-align: center">\(\sum_{t=0}^{H-1} r(s_t, u_t)\)</td>
+      <td>Utility of a trajectory</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="policy--gradient-likelihood-ratio">Policy  gradient likelihood ratio</h2>
+
+<p>We seek to maximise the expected reward:</p>
+
+\[\begin{align}
+ J(\theta) &amp;= \mathbb{E}_{\tau \sim P_{\theta}}\left[ R(\tau) \right] \\
+           &amp;= \sum_{\tau} P_{\theta}(\tau) R(\tau) \\
+\end{align}\]
+
+<p>We can derive an expresion of the gradient of the above objective function which
+is <strong>independent</strong> of the state transition model \(p(s_{t+1}|s_t, u_t)\) and only depends
+on the policy.</p>
+
+\[\begin{align}
+    \nabla_{\theta} J(\theta) &amp;=  \sum_{\tau}   \nabla_{\theta} P_{\theta}(\tau) R(\tau) \\
+    &amp;=  \sum_{\tau} P_{\theta}(\tau) \frac{\nabla_{\theta} P_{\theta}(\tau)}{P_{\theta}(\tau)} R(\tau) \\
+    &amp;= \sum_{\tau} P_{\theta}(\tau) \nabla_{\theta} \log P_{\theta}(\tau) R(\tau) \\
+    &amp;= \sum_{\tau} P_{\theta}(\tau)  \nabla_{\theta} \log \left( p(s_0)\prod_{t=0}^{H-1} p(s_{t+1}|s_t, u_t)\, \pi_{\theta}(u_t|s_t) \right) R(\tau) \\
+    &amp;= \sum_{\tau} P_{\theta}(\tau)  \nabla_{\theta} \left( \log p(s_0) + \sum_{t=0}^{H-1} \log p(s_{t+1}|s_t, u_t) + \log \pi_{\theta}(u_t|s_t) \right) R(\tau) \\
+    &amp;= \sum_{\tau} P_{\theta}(\tau)   \left(\sum_{t=0}^{H-1} \nabla_{\theta} \log \pi_{\theta}(u_t|s_t) \right) R(\tau)\\
+    &amp;= \mathbb{E}_{\tau \sim P_{\theta}}\left[ \left(\sum_{t=0}^{H-1} \nabla_{\theta} \log \pi_{\theta}(u_t|s_t) \right) R(\tau) \right]
+\end{align}\]
+
+<p>As this is an expaction over trajectories we can approximate the gradient by sampling trajectories from a
+fixed policy and state transition function:</p>
+
+\[\begin{align}
+\nabla_{\theta} J(\theta) &amp;\approx \frac{1}{m} \sum_{i=1}^m  \left(\sum_{t=0}^{H-1} \nabla_{\theta} \log \pi_{\theta}(u^{(i)}_t|s^{(i)}_t) \right) R(\tau^{(i)})
+\end{align}\]
+
+<p>Each gradient is of a trajectory is weighted by the reward of the full trajectory. An observation is that the
+current actions do not depend on past rewards.</p>
+
+\[\nabla_{\theta} J(\theta) \approx \frac{1}{m} \sum_{i=1}^m  \left(\sum_{t=0}^{H-1} \nabla_{\theta} \log \pi_{\theta}(u^{(i)}_t|s^{(i)}_t)  \left[  \sum_{k=t}^{H-1} r(s^{(i)}_k, u^{(i)}_k)  \right] \right)\]
+
+<p>This as an effect of reducing the variance of the gradients’ estimate.</p>
+:ET

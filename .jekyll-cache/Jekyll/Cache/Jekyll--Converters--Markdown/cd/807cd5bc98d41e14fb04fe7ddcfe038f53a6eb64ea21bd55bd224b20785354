@@ -1,0 +1,123 @@
+I"¯<!-- KaTeX -->
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+
+<h2 id="resources">Resources</h2>
+
+<p><a href="http://www.seas.ucla.edu/~vandenbe/133A/lectures/ls.pdf">Vandenberghe Lectures</a></p>
+
+<h2 id="notation">Notation</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>variable</th>
+      <th style="text-align: center">dimension</th>
+      <th>name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>\(\mathbf{y}_i\)</td>
+      <td style="text-align: center">\(\mathbb{R}^{(M \times 1)}\)</td>
+      <td>i<em>th</em> predictor</td>
+    </tr>
+    <tr>
+      <td>\(\mathbf{x}_i\)</td>
+      <td style="text-align: center">\(\mathbb{R}^{(P \times 1)}\)</td>
+      <td>i<em>th</em> state</td>
+    </tr>
+    <tr>
+      <td>\(\alpha_i\)</td>
+      <td style="text-align: center">\(\mathbb{R}^{(1 \times 1)}\)</td>
+      <td>i<em>th</em> sample weight</td>
+    </tr>
+    <tr>
+      <td>\(\mathbf{w}\)</td>
+      <td style="text-align: center">\(\mathbb{R}^{(P \times M)}\)</td>
+      <td>weights</td>
+    </tr>
+    <tr>
+      <td>\(\mathbf{Y}\)</td>
+      <td style="text-align: center">\(\mathbb{R}^{(N \times M)}\)</td>
+      <td>all predictors</td>
+    </tr>
+    <tr>
+      <td>\(\mathbf{X}\)</td>
+      <td style="text-align: center">\(\mathbb{R}^{(N \times P)}\)</td>
+      <td>all states</td>
+    </tr>
+    <tr>
+      <td>\(\boldsymbol{\alpha}\)</td>
+      <td style="text-align: center">\(\mathbb{R}^{(N \times N)}\)</td>
+      <td>identity matrix with columns entries being data point weights</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="weighted-gaussian-linear-regression">Weighted Gaussian Linear regression</h2>
+
+<p>The log-likelihood of dataset with \(N\) weighted samples  \(\mathcal{D} = \{\mathbf{x}_i, \mathbf{y}_i, \alpha_i \}_{i=1:N}\) which is modeled by a linear gaussian function is given by:</p>
+
+<center>
+$$L(\mathcal{D};\boldsymbol{\theta}) \triangleq \sum_{i=1}^N \log p(\mathbf{y}_i|\mathbf{x}_i;\boldsymbol{\theta}) \, \alpha_i$$
+</center>
+
+<p>where \(p(\cdot)\) is a Gaussian probability density function:</p>
+
+\[p(\mathbf{y}_i|\mathbf{x}_i;\boldsymbol{\theta}) = \frac{1}{(2\pi)^{D/2}|\boldsymbol{\Sigma}|^{1/2}} \exp\Bigg(-\frac{1}{2} (\mathbf{y}_i - \mathbf{w}^{T}\mathbf{x}_i)^{T}\boldsymbol{\Sigma}^{-1}(\mathbf{y}_i - \mathbf{w}^{T}\mathbf{x}_i) \Bigg)\]
+
+<p>with parameters \(\boldsymbol{\theta} \triangleq \{\mathbf{w}, \boldsymbol{\Sigma}\}\).</p>
+
+<h3 id="expansion-of-the-log-likelihood">Expansion of the log-likelihood</h3>
+
+<p>First without considering the weights \(\alpha\) we simplify \(L(\mathcal{D};\boldsymbol{\theta})\)</p>
+
+\[\begin{align}
+&amp;=\sum_{i=1}^N \log 1 - \log( (2\pi)^{D/2}|\boldsymbol{\Sigma}|^{1/2}) - \frac{1}{2} (\mathbf{y}_i - \mathbf{w}^{T}\mathbf{x}_i)^{T}\boldsymbol{\Sigma}^{-1}(\mathbf{y}_i - \mathbf{w}^{T}\mathbf{x}_i) \\
+&amp;=\sum_{i=1}^N - \frac{1}{2}\log((2\pi)^{D}|\boldsymbol{\Sigma}|) - \frac{1}{2} (\mathbf{y}_i - \mathbf{w}^{T}\mathbf{x}_i)^{T}\boldsymbol{\Sigma}^{-1}(\mathbf{y}_i - \mathbf{w}^{T}\mathbf{x}_i) \\
+&amp;=\sum_{i=1}^N - \frac{1}{2}\log((2\pi)^{D}) - \frac{1}{2}\log |\boldsymbol{\Sigma}| - \frac{1}{2} (\mathbf{y}_i - \mathbf{w}^{T}\mathbf{x}_i)^{T}\boldsymbol{\Sigma}^{-1}(\mathbf{y}_i - \mathbf{w}^{T}\mathbf{x}_i)\\
+&amp;= \sum_{i=1}^N - \frac{D}{2}\log(2\pi) - \frac{1}{2}\log |\boldsymbol{\Sigma}| - \frac{1}{2} (\mathbf{y}_i - \mathbf{w}^{T}\mathbf{x}_i)^{T}\boldsymbol{\Sigma}^{-1}(\mathbf{y}_i - \mathbf{w}^{T}\mathbf{x}_i) \\
+&amp;= -\frac{N\,D}{2}\log(2\pi) - \frac{N}{2}\log |\boldsymbol{\Sigma}| - \frac{1}{2} \sum_{i=1}^N (\mathbf{y}_i - \mathbf{w}^{T}\mathbf{x}_i)^{T}\boldsymbol{\Sigma}^{-1}(\mathbf{y}_i - \mathbf{w}^{T}\mathbf{x}_i)
+\end{align}\]
+
+<p>Simplifying with the weights:</p>
+
+\[\begin{align}
+&amp;= \sum_{i=1}^N - \frac{D}{2}\log(2\pi)\alpha_i - \frac{1}{2}\log |\boldsymbol{\Sigma}|\alpha_i - \frac{1}{2} (\mathbf{y}_i - \mathbf{w}^{T}\mathbf{x}_i)^{T}\boldsymbol{\Sigma}^{-1}(\mathbf{y}_i - \mathbf{w}^{T}\mathbf{x}_i) \alpha_i\\
+&amp;= - \frac{D}{2}\log(2\pi)\left(\sum_{i=1}^N \alpha_i\right) - \frac{1}{2}\log |\boldsymbol{\Sigma}|\left(\sum_{i=1}^N \alpha_i\right) - \frac{1}{2} \sum_{i=1}^N (\mathbf{y}_i - \mathbf{w}^{T}\mathbf{x}_i)^{T}\boldsymbol{\Sigma}^{-1}(\mathbf{y}_i - \mathbf{w}^{T}\mathbf{x}_i) \alpha_i \end{align}\]
+
+<h2 id="1d-maximum-likelihood">1D Maximum likelihood</h2>
+
+<p>Given that we are in the 1D case \(\boldsymbol{\Sigma} = \sigma\), \(D=1\)</p>
+
+\[\begin{align}
+&amp;L(\mathcal{D};\boldsymbol{\theta}) = \\
+&amp;-\frac{1}{2}\log(2\pi)\left(\sum_{i=1}^N \alpha_i\right) - \frac{1}{2}\log \sigma^2 \left(\sum_{i=1}^N \alpha_i\right) - \frac{1}{2\, \sigma^2} \sum_{i=1}^N (\mathbf{y}_i - \mathbf{w}^{T}\mathbf{x}_i)^{T}\boldsymbol{\Sigma}^{-1}(\mathbf{y}_i - \mathbf{w}^{T}\mathbf{x}_i) \alpha_i\\
+ &amp;= - \frac{1}{2}\log(2\pi \sigma^2)\left(\sum_{i=1}^N \alpha_i\right) - \frac{1}{2\, \sigma^2} \sum_{i=1}^N (y - \mathbf{w}^{T}\mathbf{x}_i)^2\alpha_i
+ \end{align}\]
+
+<p>Set the derivaties with respect to the parameters to zero, \(\frac{\partial L}{\partial \mathbf{w}} = 0\) and \(\frac{\partial L}{\partial \sigma^2} = 0\),  and solve for \(\mathbf{w}\) and \(\sigma^2\):</p>
+
+<h3 id="maximise-weights">maximise weights</h3>
+
+\[\frac{\partial L}{\partial \mathbf{w}} = \frac{1}{2\, \sigma^2} \sum_{i=1}^N \frac{\partial}{\partial \mathbf{w}} (y_i - \mathbf{w}^{T}\mathbf{x}_i)^2\alpha_i\]
+
+\[\begin{align}
+ 0 &amp;= \frac{1}{2\, \sigma^2} \sum_{i=1}^N - 2\, (\mathbf{Y}_i - \mathbf{w}^{T}\mathbf{x}_i)\, \mathbf{x}_i\, \alpha_i\\
+ 0 &amp;= \sum_{i=1}^N - \, (\mathbf{y}_i - \mathbf{w}^{T}\mathbf{x}_i)\, \mathbf{x}_i\, \alpha_i\\
+ 0 &amp;= -\sum_{i=1}^N  \mathbf{y}_i\, \mathbf{x}_i\, \alpha_i +  \sum_{i=1}^N \mathbf{w}^{T}\mathbf{x}_i\, \mathbf{x}_i\, \alpha_i \\
+ 0 &amp;= -\mathbf{X}^{T}\boldsymbol{\alpha}\mathbf{Y} +  \mathbf{w} \mathbf{X}^{T}\boldsymbol{\alpha}\mathbf{X}\\
+ \mathbf{w} \mathbf{X}^{T}\boldsymbol{\alpha}\mathbf{X} &amp;= \mathbf{X}^{T}\boldsymbol{\alpha}\mathbf{Y}\\
+ \mathbf{w} &amp;= (\mathbf{X}^{T}\boldsymbol{\alpha}\mathbf{X})^{-1}\mathbf{X}^{T}\boldsymbol{\alpha}\mathbf{Y}
+ \end{align}\]
+
+<h3 id="maximise-variance">maximise variance</h3>
+
+\[\begin{align}
+\frac{\partial L}{\partial \sigma^2} &amp;= \frac{\partial \left[-\frac{1}{2}\log(2\pi)\left(\sum_{i=1}^N \alpha_i\right) -\frac{1}{2}\log(\sigma^2)\left(\sum_{i=1}^N \alpha_i\right) - \frac{1}{2\, \sigma^2} \sum_{i=1}^N (\mathbf{y}_i - \mathbf{w}^{T}\mathbf{x}_i)^2\alpha_i\right]}{\partial \sigma^2}\\
+&amp;= -\frac{1}{2 \sigma^2}\left(\sum_{i=1}^N \alpha_i\right) + \frac{1}{2\, \sigma^4} \sum_{i=1}^N (\mathbf{y}_i  - \mathbf{w}^{T}\mathbf{x}_i)^2\alpha_i \\
+0 &amp;= -\left(\sum_{i=1}^N \alpha_i\right) + \frac{1}{\sigma^2} \sum_{i=1}^N (\mathbf{y}_i  - \mathbf{w}^{T}\mathbf{x}_i)^2\alpha_i\\
+\sigma^2 \left(\sum_{i=1}^N \alpha_i\right) &amp;= \sum_{i=1}^N (\mathbf{y}_i  - \mathbf{w}^{T}\mathbf{x}_i)^2\alpha_i \\
+\sigma^2 &amp;= \frac{1}{\left(\sum_{i=1}^N \alpha_i\right)} \sum_{i=1}^N (\mathbf{y}_i  - \mathbf{w}^{T}\mathbf{x}_i)^2\alpha_i
+\end{align}\]
+:ET

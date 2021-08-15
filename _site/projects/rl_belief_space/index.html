@@ -1,0 +1,803 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Fitted Policy Iteration for a POMDPs for a continuous state-action space. - Guillaume’s draws</title>
+<meta name="description" content="A POMDP policy is learned from demonstrations and improved in a Reinforcement learning framework.">
+
+
+  <meta name="author" content="Guillaume de Chambrier">
+  
+  <meta property="article:author" content="Guillaume de Chambrier">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en">
+<meta property="og:site_name" content="Guillaume's draws">
+<meta property="og:title" content="Fitted Policy Iteration for a POMDPs for a continuous state-action space.">
+<meta property="og:url" content="https://gpldecha.github.io/projects/rl_belief_space/">
+
+
+  <meta property="og:description" content="A POMDP policy is learned from demonstrations and improved in a Reinforcement learning framework.">
+
+
+
+  <meta property="og:image" content="https://gpldecha.github.io/images/projects/rl_pomdp/value-function-th.png">
+
+
+
+
+
+  <meta property="article:published_time" content="2021-08-15T21:44:53+01:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://gpldecha.github.io/projects/rl_belief_space/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Guillaume de Chambrier",
+      "url": "https://gpldecha.github.io/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Guillaume's draws Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Guillaume's draws
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/ml/">Machine Learning</a>
+            </li><li class="masthead__menu-item">
+              <a href="/cs/">Computer Science</a>
+            </li><li class="masthead__menu-item">
+              <a href="/robotics/">Robotics</a>
+            </li><li class="masthead__menu-item">
+              <a href="/notes/">Notes</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/images/bio-photo-2.jpg" alt="Guillaume de Chambrier" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">Guillaume de Chambrier</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">London</span>
+        </li>
+      
+
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            <li><a href="https://github.com/gpldecha" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:chambrierg@gmail.com">
+            <meta itemprop="email" content="chambrierg@gmail.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Fitted Policy Iteration for a POMDPs for a continuous state-action space.">
+    <meta itemprop="description" content="A POMDP policy is learned from demonstrations and improved in a Reinforcement learning framework.">
+    <meta itemprop="datePublished" content="2021-08-15T21:44:53+01:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Fitted Policy Iteration for a POMDPs for a continuous state-action space.
+</h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+        <!-- KaTeX -->
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+
+<h1 id="objective">Objective</h1>
+
+<p>The parameters of a continuous state and action POMDP policy are initially learned
+from human teachers and improved through a fitted reinforcement learning approach.
+As an application we consider the task in which both human teachers and robot apprentice
+must successfully localize and connect an electrical power socket, a task also known
+as Peg in hole (PiH), whilst deprived of vision. To accomplish this the following steps are followed:</p>
+
+<ul>
+  <li>Gather a dataset of demonstrations of the task (find and connect the power socket).</li>
+  <li>Learn a value function of the task via fitted reinforcement learning.</li>
+  <li>Learn the parameters of the POMDP policy whilst weighting the data points by the value function.</li>
+</ul>
+
+<p><strong>A technical report of this project can be downloaded from:</strong> <a href="https://gpldecha.github.io/documents/fpi_pomdp.pdf">here</a>.</p>
+
+<h1 id="notation-and-variables">Notation and variables</h1>
+
+<ul>
+  <li>\(x \in \mathbb{R}^3\), Cartesian position of end-effector.</li>
+  <li>\(a \in \mathbb{R}^3 = \dot{x}\), Cartesian velocity of end-effector.</li>
+  <li>\(y \in \mathbb{R}^N\), sensory measurement vector.</li>
+  <li>\(b := p(x_{t} \lvert a_{1:t},y_{0:t})\), probability distribution over state space.</li>
+  <li>\(g : b \mapsto F\), dimensionality reduction, where \(F\) is a feature vector.</li>
+</ul>
+
+<h1 id="overview">Overview</h1>
+
+<p>Following the <a href="http://www.scholarpedia.org/article/Robot_learning_by_demonstration"><em>Programming by Demonstration (PbD)</em></a>
+approach, human teachers demonstrate the search and connection task, see Figure <a href="#pih_h_v">Peg-in-hole search task</a>.</p>
+
+<!-- Sina peg-in-hole search video -->
+
+<!-- _includes/image.html -->
+<div class="video-wrapper">
+  
+      <iframe width="560" height="316" src="https://www.youtube.com/embed/w3MgWHjoSVg" frameborder="0" allowfullscreen=""></iframe>
+  
+
+  
+    <br />
+    <div class="boxed">
+        <p class="video-caption"> <b>Video: Peg-in-hole search task:</b> <a name="pih_h_v"></a> A blindfolded human teacher demonstrating the peg-in-hole search task. The holder is equipped
+                                        with markers and an ATI force/torque sensor from which both velocity and wrench information can be read at
+                                        every time step.</p>
+    </div>
+  
+
+</div>
+
+<p><br /></p>
+
+<p>The tool the teacher is using is a peg holder from which the velocity and wrench can be obtained, with the help
+of a motion tracking system (<a href="http://optitrack.com/">Optitrack</a>) and ATI force torque sensor. With both motion (velocity)
+and sensing information (wrench) we recursively update a Bayesian state space estimation of the peg’s Cartesian position.
+A position estimation is necessary as both the human teacher and robot apprentice do not have access to any visual information
+when they have to accomplish the task. Figure <a href="#pmf_v">Point Mass Filter</a>, illustrated the Bayesian state space estimation
+obtained through the recursive application of the motion and measurement models.</p>
+
+<!-- Sina peg-in-hole search video -->
+
+<!-- _includes/image.html -->
+<div class="video-wrapper">
+  
+      <iframe width="300" height="300" src="https://www.youtube.com/embed/0yf-lkg-Hr0" frameborder="0" allowfullscreen=""></iframe>
+  
+
+  
+    <br />
+    <div class="boxed">
+        <p class="video-caption"> <b>Video: Point Mass Filter:</b> <a name="pmf_v"></a> Given an initially known probability distribution all future distributions obtained via the Bayesian update.
+                                                   The red line represents the path followed by a human teacher.</p>
+    </div>
+  
+
+</div>
+
+<p><br /></p>
+
+<p>After learning a value function \(V^{\pi}(F)\) and improving the policy \(\pi_{\boldsymbol{\theta}}: F \mapsto a\)
+we can successfully transfer the teachers’ behavior to the KUKA LWR robot, see Figure <a href="#pih_lwr_v">KUKA LWR PiH</a>.</p>
+
+<!-- KUKA peg-in-hole search video -->
+
+<!-- _includes/image.html -->
+<div class="video-wrapper">
+  
+      <iframe width="250" height="250" src="https://www.youtube.com/embed/eQRLpqUTvGA" frameborder="0" allowfullscreen=""></iframe>
+  
+
+  
+    <br />
+    <div class="boxed">
+        <p class="video-caption"> <b>Video: KUKA LWR PiH:</b> <a name="pih_lwr_v"></a> Application of the learned POMDP policy.</p>
+    </div>
+  
+
+</div>
+
+<p><br /></p>
+
+<h1 id="fitted-policy-iteration">Fitted Policy Iteration</h1>
+
+<p>Fitted Policy Iteration (FPI) is an off-line on-policy Reinforcement Learning (RL) methods which iteratively
+estimates a value function (<b>policy evaluation</b>) and then uses it to update the parameters of the policy (<b>policy improvement</b>).
+It is also an Actor-Critic and Batch/Experience replay RL method. The steps of FPI are in essence the same as <a href="#http://webdocs.cs.ualberta.ca/~sutton/book/4/node4.html">Policy Iteration</a> where the difference is that we use a Fitted RL approach to learn the value function and an Expectation-Maximisation (EM) to improve the parameters of the policy.</p>
+
+<h2 id="fitted-policy-evaluation-fpe">Fitted Policy Evaluation (FPE)</h2>
+
+<p>Given a table of state-reward  \(\mathcal{D} = \{ (x^{[i]}_{0:T},a^{[i]}_{0:T})  \}_{i=1:M}\) where
+\(i\) stands for the \(i\)th demonstration (episode). The value function is learned through the repeated
+application of Bellman’s on-policy backup operator to the dataset,</p>
+
+<ul>
+  <li>
+\[\hat{V}_{k+1}^{\pi}(x) = Regress(x, r + \gamma  \hat{V}_{k}^{\pi}(x))\]
+  </li>
+</ul>
+
+<p>until converges of the bellman residual. Figure <a href="#rl_2D_demonstrations">2D teacher demonstrations</a>
+illustrates a set of demonstrations given by two teachers. The task is reach to goal state (start)
+given the starting state. Neither teacher demonstrates the optimal solution which is to go in
+a straight line from start to goal.</p>
+
+<!-- 2D Demonstrations -->
+
+<!-- _includes/image.html -->
+<div class="image-wrapper">
+  
+  <div class="boxed">
+  
+    
+        <img src="https://gpldecha.github.io/images//projects/rl_pomdp/blue-red-trajectory.png" alt="2D teacher demonstrations" align="middle" />
+    
+  
+  </div>
+  
+
+  
+  <br />
+    <div class="boxed">
+        <p class="image-caption"> <b>Figure: 2D teacher demonstrations</b> <a name=""></a> Two teachers demonstrate the task of going form start go goal state. Neither of the two demonstrate the optimal solution, which is to
+            go in a straight path to the goal.</p>
+      </div>
+  
+</div>
+
+<p><br /></p>
+
+<p>In Figure <a href="#fpe_v">Fitted Policy Evaluation</a>, the on-policy Bellman equation is
+repeatably applied to the dataset. At the first time step the target value of
+the regressor function  (which is Locally Weighted Regression) is simply the reward: \(\hat{V}_0^{\pi} : x \mapsto r\).
+In the second iteration, a new target for the regressor function is computed: \(\hat{V}_1^{\pi}  : x \mapsto r + \gamma  \hat{V}_0^{\pi}(x)\) which
+depends on the previous value function estimate.</p>
+
+<!-- Fitted Policy Evaluation 2D -->
+
+<!-- _includes/image.html -->
+<div class="video-wrapper">
+  
+      <iframe width="250" height="250" src="https://www.youtube.com/embed/lmKc5ccbbpM" frameborder="0" allowfullscreen=""></iframe>
+  
+
+  
+    <br />
+    <div class="boxed">
+        <p class="video-caption"> <b>Video: Fitted Policy Evaluation:</b> <a name="fpe_v"></a> At each time iteration: First the target value of the regression is updated, that the bellman value. Second
+                                        a regression function mapping state to value function is learned. In this case we are using Locally Weighted Regression (LWR).</p>
+    </div>
+  
+
+</div>
+
+<p><br /></p>
+
+<h2 id="policy-improvement">Policy Improvement</h2>
+
+<p>Given the estimate of the value function \(\hat{V}^{\pi}(x)\) we can use it to improve
+the parameters of the policy, which is a Gaussian Mixture Model (GMM) in our application.
+This can be achieved my maximizing the logarithmic lower point of the objective function \(J(\boldsymbol{\theta}) = \mathbb{E}\{R\}\)  of
+the task with respect to the policies parameters \(\boldsymbol{\theta}\):</p>
+
+\[\nabla_{\boldsymbol{\theta}} Q(\boldsymbol{\theta},\boldsymbol{\theta}') = \sum\limits_{i=1}^{N}\sum\limits_{t=0}^{T^{[i]}} \nabla_{\boldsymbol{\theta}} \log \pi_{\boldsymbol{\theta}}(x^{[i]}_t,a^{[i]}_t) \mathcal{Q}^{\boldsymbol{\theta}'}(x^{[i]}_t,a^{[i]}_t) \\]
+
+<!-- 2D PbD-POMDP -->
+
+<!-- _includes/image.html -->
+<div class="image-wrapper">
+  
+  <div class="boxed">
+  
+    
+        <img src="https://gpldecha.github.io/images//projects/rl_pomdp/GMM-Policy.png" alt="Policy learned from demonstrations" align="middle" />
+    
+  
+  </div>
+  
+
+  
+  <br />
+    <div class="boxed">
+        <p class="image-caption"> <b>Figure: Policy learned from demonstrations</b> <a name=""></a> </p>
+      </div>
+  
+</div>
+
+<!-- 2D RL-PbD-POMDP -->
+
+<!-- _includes/image.html -->
+<div class="image-wrapper">
+  
+  <div class="boxed">
+  
+    
+        <img src="https://gpldecha.github.io/images//projects/rl_pomdp/QEM-GMM-Policy.png" alt="Policy learned from demonstrations" align="middle" />
+    
+  
+  </div>
+  
+
+  
+  <br />
+    <div class="boxed">
+        <p class="image-caption"> <b>Figure: Policy learned from demonstrations</b> <a name=""></a> </p>
+      </div>
+  
+</div>
+
+<h1 id="socket-search-task">Socket search task</h1>
+
+<!--3 different sockets -->
+
+<!-- _includes/image.html -->
+<div class="image-wrapper">
+  
+  <div class="boxed">
+  
+    
+        <img src="https://gpldecha.github.io/images//projects/rl_pomdp/sockets-ch4.png" alt="Three different sockets" align="middle" />
+    
+  
+  </div>
+  
+
+  
+  <br />
+    <div class="boxed">
+        <p class="image-caption"> <b>Figure: Three different sockets</b> <a name=""></a> </p>
+      </div>
+  
+</div>
+
+<!-- Table Value function-->
+
+<!-- _includes/image.html -->
+<div class="image-wrapper">
+  
+  <div class="boxed">
+  
+    
+        <img src="https://gpldecha.github.io/images//projects/rl_pomdp/value-function.png" alt="Belief space value function:" align="middle" />
+    
+  
+  </div>
+  
+
+  
+  <br />
+    <div class="boxed">
+        <p class="image-caption"> <b>Figure: Belief space value function:</b> <a name=""></a> </p>
+      </div>
+  
+</div>
+
+<h1 id="kuka">KUKA</h1>
+
+<!-- Search Socket B -->
+
+<!-- _includes/image.html -->
+<div class="video-wrapper">
+  
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/k32qV4JODas" frameborder="0" allowfullscreen=""></iframe>
+  
+
+  
+    <br />
+    <div class="boxed">
+        <p class="video-caption"> <b>Video: KUKA search for power socket:</b> <a name="socket_A_v"></a> Search for socket A</p>
+    </div>
+  
+
+</div>
+
+<!-- Search Socket B -->
+
+<!-- _includes/image.html -->
+<div class="video-wrapper">
+  
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/DvRG_7Knijw" frameborder="0" allowfullscreen=""></iframe>
+  
+
+  
+    <br />
+    <div class="boxed">
+        <p class="video-caption"> <b>Video: Socket B:</b> <a name="socket_B_v"></a> Search for socket B</p>
+    </div>
+  
+
+</div>
+
+<!-- Search Socket C -->
+
+<!-- _includes/image.html -->
+<div class="video-wrapper">
+  
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/P1-0v0J90D0" frameborder="0" allowfullscreen=""></iframe>
+  
+
+  
+    <br />
+    <div class="boxed">
+        <p class="video-caption"> <b>Video: Socket C:</b> <a name="socket_c_v"></a> Search for socket C</p>
+    </div>
+  
+
+</div>
+
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2021-08-15T21:44:53+01:00">August 15, 2021</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=Fitted+Policy+Iteration+for+a+POMDPs+for+a+continuous+state-action+space.%20https%3A%2F%2Fgpldecha.github.io%2Fprojects%2Frl_belief_space%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fgpldecha.github.io%2Fprojects%2Frl_belief_space%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fgpldecha.github.io%2Fprojects%2Frl_belief_space%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/projects/pmf/" class="pagination--pager" title="Point Mass Filter
+">Previous</a>
+    
+    
+      <a href="/projects/rover/" class="pagination--pager" title="Autonomous Rover
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You may also enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/packaging-debian/" rel="permalink">Ubuntu/Debian packaging
+</a>
+      
+    </h2>
+    
+
+
+    <p class="archive__item-excerpt" itemprop="description">How to package a C++ program into a debian package
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/deploying-python-cpp/" rel="permalink">Deploying a Python/C++ package
+</a>
+      
+    </h2>
+    
+
+
+    <p class="archive__item-excerpt" itemprop="description">I have written a C++ library for non-parametric regression.
+Now C++ is great if you want to write efficient code, however it is less than ideal when it comes...</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2021 Guillaume de Chambrier. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>

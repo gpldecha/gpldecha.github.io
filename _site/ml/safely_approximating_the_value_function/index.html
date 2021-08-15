@@ -1,0 +1,462 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Safely Approximating the Value Function - Guillaume’s draws</title>
+<meta name="description" content="Function approximation of the value function is key to generalisation. However, one has to be careful!">
+
+
+  <meta name="author" content="Guillaume de Chambrier">
+  
+  <meta property="article:author" content="Guillaume de Chambrier">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en">
+<meta property="og:site_name" content="Guillaume's draws">
+<meta property="og:title" content="Safely Approximating the Value Function">
+<meta property="og:url" content="https://gpldecha.github.io/ml/safely_approximating_the_value_function/">
+
+
+  <meta property="og:description" content="Function approximation of the value function is key to generalisation. However, one has to be careful!">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2021-08-15T21:44:53+01:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://gpldecha.github.io/ml/safely_approximating_the_value_function/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Guillaume de Chambrier",
+      "url": "https://gpldecha.github.io/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Guillaume's draws Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Guillaume's draws
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/ml/">Machine Learning</a>
+            </li><li class="masthead__menu-item">
+              <a href="/cs/">Computer Science</a>
+            </li><li class="masthead__menu-item">
+              <a href="/robotics/">Robotics</a>
+            </li><li class="masthead__menu-item">
+              <a href="/notes/">Notes</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+  
+
+
+
+
+
+
+
+<div class="page__hero--overlay"
+  style="background-color: #333; background-image: url('');"
+>
+  
+    <div class="wrapper">
+      <h1 id="page-title" class="page__title" itemprop="headline">
+        
+          Safely Approximating the Value Function
+
+        
+      </h1>
+      
+        <p class="page__lead">Function approximation of the value function is key to generalisation. However, one has to be careful!
+</p>
+      
+      
+
+
+      
+      
+    </div>
+  
+  
+</div>
+
+
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/images/bio-photo-2.jpg" alt="Guillaume de Chambrier" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">Guillaume de Chambrier</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">London</span>
+        </li>
+      
+
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            <li><a href="https://github.com/gpldecha" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:chambrierg@gmail.com">
+            <meta itemprop="email" content="chambrierg@gmail.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Safely Approximating the Value Function">
+    <meta itemprop="description" content="Function approximation of the value function is key to generalisation. However, one has to be careful!">
+    <meta itemprop="datePublished" content="2021-08-15T21:44:53+01:00">
+    
+
+    <div class="page__inner-wrap">
+      
+
+      <section class="page__content" itemprop="text">
+        
+        <p>Bootstrapping methods are more difficult to combine with FA than are non-bootstrapping methods.</p>
+
+<!-- KaTeX -->
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+
+<h1 id="what-is-function-approximation-">What is function approximation ?</h1>
+
+<h1 id="what-is-the-main-cause-of-diverging-value-function-">What is the main cause of diverging value function ?</h1>
+
+<h1 id="when-can-the-value-function-diverge-">When can the value function diverge ?</h1>
+
+<p><span style="color:blue"><b>The deadly triad</b></span> <a href="http://media.nips.cc/Conferences/2015/tutorialslides/SuttonIntroRL-nips-2015-tutorial.pdf"><em>(exert from Sutton’s slides NIPS 2015 tutorial)</em></a></p>
+
+<p>The risk of divergence arises whenever we combine three things:</p>
+
+<ol>
+  <li>
+    <p><span style="color:red"><b>Function approximation:</b></span><br />
+significantly generalizing from large numbers of examples.</p>
+  </li>
+  <li>
+    <p><span style="color:red"><b>Bootstrapping</b></span><br />
+learning value estimates from other value estimates,
+as in dynamic programming and temporal-difference learning.</p>
+  </li>
+  <li>
+    <p><span style="color:red"><b>Off-policy learning</b></span><br />
+learning about a policy from data not due to that policy,
+as in Q-learning, where we learn about the greedy policy from
+data with a necessarily more exploratory policy.</p>
+  </li>
+</ol>
+
+<p>Based on the above the following should converge (always?):</p>
+
+<ul>
+  <li>On-policy with any form of Bootstrapping such as TD(0)</li>
+</ul>
+
+<h1 id="offon-policy">Off/On-policy</h1>
+
+<ul>
+  <li>Value Iteration: off-policy</li>
+  <li>Q-learning: off-policy</li>
+  <li>Policy Iteration: on-policy</li>
+  <li>SARSA: on-policy</li>
+</ul>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2021-08-15T21:44:53+01:00">August 15, 2021</time></p>
+
+
+      </footer>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/ml/rl_notes/" class="pagination--pager" title="Reinforcement learning notes
+">Previous</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2021 Guillaume de Chambrier. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>

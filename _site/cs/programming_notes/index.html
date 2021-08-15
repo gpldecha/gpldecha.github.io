@@ -1,0 +1,466 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Programming notes - Guillaume’s draws</title>
+<meta name="description" content="I note book of programming terminology, stuff I always forget">
+
+
+  <meta name="author" content="Guillaume de Chambrier">
+  
+  <meta property="article:author" content="Guillaume de Chambrier">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en">
+<meta property="og:site_name" content="Guillaume's draws">
+<meta property="og:title" content="Programming notes">
+<meta property="og:url" content="https://gpldecha.github.io/cs/programming_notes/">
+
+
+  <meta property="og:description" content="I note book of programming terminology, stuff I always forget">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2021-08-15T21:44:53+01:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://gpldecha.github.io/cs/programming_notes/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Guillaume de Chambrier",
+      "url": "https://gpldecha.github.io/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Guillaume's draws Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Guillaume's draws
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/ml/">Machine Learning</a>
+            </li><li class="masthead__menu-item">
+              <a href="/cs/">Computer Science</a>
+            </li><li class="masthead__menu-item">
+              <a href="/robotics/">Robotics</a>
+            </li><li class="masthead__menu-item">
+              <a href="/notes/">Notes</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+  
+
+
+
+
+
+
+
+<div class="page__hero--overlay"
+  style="background-color: #333; background-image: url('');"
+>
+  
+    <div class="wrapper">
+      <h1 id="page-title" class="page__title" itemprop="headline">
+        
+          Programming notes
+
+        
+      </h1>
+      
+        <p class="page__lead">I note book of programming terminology, stuff I always forget
+</p>
+      
+      
+
+
+      
+      
+    </div>
+  
+  
+</div>
+
+
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/images/bio-photo-2.jpg" alt="Guillaume de Chambrier" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">Guillaume de Chambrier</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">London</span>
+        </li>
+      
+
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            <li><a href="https://github.com/gpldecha" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:chambrierg@gmail.com">
+            <meta itemprop="email" content="chambrierg@gmail.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Programming notes">
+    <meta itemprop="description" content="I note book of programming terminology, stuff I always forget">
+    <meta itemprop="datePublished" content="2021-08-15T21:44:53+01:00">
+    
+
+    <div class="page__inner-wrap">
+      
+
+      <section class="page__content" itemprop="text">
+        
+        <h1 id="row-major">Row-major</h1>
+
+<ul>
+  <li><a href="http://eli.thegreenplace.net/2015/memory-layout-of-multi-dimensional-arrays/">memory-layout-of-multi-dimensional-arrays</a></li>
+</ul>
+
+<h1 id="terminology">Terminology</h1>
+
+<h3 id="name-mangling">name mangling</h3>
+
+<p>Adds meta-data to the name of a function. This process, in the case of C++, takes
+place during the compilation. One reason for this is that the compilation process
+first converts the C++ code to C and C only allows unique function names throughout
+the program.</p>
+
+<p><em>resources</em>:</p>
+
+<ul>
+  <li><a href="https://en.wikipedia.org/wiki/Name_mangling#C.2B.2B">wiki name mangling</a></li>
+</ul>
+
+<h1 id="c">C++</h1>
+
+<ul>
+  <li><a href="https://github.com/bast/gtest-demo">Example of gtest with travis</a></li>
+</ul>
+
+<h1 id="python">Python</h1>
+
+<h2 id="how-to--structure-a-python-project">How to  structure a python project</h2>
+
+<p><a href="http://stackoverflow.com/questions/193161/what-is-the-best-project-structure-for-a-python-application">what-is-the-best-project-structure-for-a-python-application</a></p>
+
+<h2 id="how-to-package-your-python-code">How To Package Your Python Code</h2>
+
+<ul>
+  <li><a href="https://python-packaging.readthedocs.io/en/latest/">How To Package Your Python Code</a></li>
+  <li><a href="https://packaging.python.org/distributing/#uploading-your-project-to-pypi">Uploading your project to pypi</a></li>
+</ul>
+
+<h2 id="module-path-system">module path system</h2>
+
+<p>Important component which will frustrate most beginners if not understood
+from the very beginning.</p>
+
+<p><a href="https://docs.python.org/3/reference/import.html">python-import</a></p>
+
+<h2 id="importing-a-module-into-another-whilst-both-are-located-in-different-folders">importing a module into another whilst both are located in different folders</h2>
+
+<p><a href="http://stackoverflow.com/questions/37233140/python-module-not-found">python-modules-not-found</a>
+<a href="http://stackoverflow.com/questions/714063/importing-modules-from-parent-folder">importing-modules-from-parent-folder</a></p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2021-08-15T21:44:53+01:00">August 15, 2021</time></p>
+
+
+      </footer>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/cs/preempt_rt/" class="pagination--pager" title="PREEMPT_RT
+">Previous</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2021 Guillaume de Chambrier. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>

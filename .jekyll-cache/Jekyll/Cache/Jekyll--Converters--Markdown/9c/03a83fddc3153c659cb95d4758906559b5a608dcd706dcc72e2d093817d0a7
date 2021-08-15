@@ -1,0 +1,35 @@
+I"Œ<h1 id="move-and-forwarding">move and forwarding</h1>
+
+<p><a href="https://msdn.microsoft.com/en-us/library/f90831hc.aspx">Microsoft tutorial on l-values</a></p>
+
+<p><a href="http://thbecker.net/articles/rvalue_references/section_01.html">A review on l-values in c++</a></p>
+
+<ul>
+  <li>What does std::move do ?</li>
+  <li>When and for whate would you use it for ?</li>
+  <li>
+    <p>What is rvalue and lvalue references ?</p>
+  </li>
+  <li><a href="https://www.youtube.com/watch?v=BezbcQIuCsY">Scott Meyers talk</a> on std::move and
+std::forward</li>
+</ul>
+
+<p>std::move is an <strong>unconditional</strong> cast to an rvalue.
+std::forward is a <strong>conditional</strong> cost to an rvalue.</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="nc">T</span><span class="p">&gt;</span>
+<span class="k">typename</span> <span class="n">remove_reference</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;::</span><span class="n">type</span><span class="o">&amp;&amp;</span>
+<span class="n">move</span><span class="p">(</span><span class="n">T</span><span class="o">&amp;&amp;</span> <span class="n">param</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">unsing</span> <span class="n">ReturnType</span> <span class="o">=</span> <span class="k">typename</span> <span class="n">remove_reference</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;::</span><span class="n">type</span><span class="o">&amp;&amp;</span><span class="p">;</span>
+  <span class="k">return</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="n">ReturnType</span><span class="o">&gt;</span><span class="p">(</span><span class="n">param</span><span class="p">);</span>
+<span class="p">}</span>
+
+</code></pre></div></div>
+<p>std::move simply takes the argument and castâ€™s it to an rvalue. You can think
+of it as cast_rvalue, it does not do any move but is done prior to implementing an
+efficient move.</p>
+
+<p>std::forward a conditional cast to an rvalue.</p>
+:ET

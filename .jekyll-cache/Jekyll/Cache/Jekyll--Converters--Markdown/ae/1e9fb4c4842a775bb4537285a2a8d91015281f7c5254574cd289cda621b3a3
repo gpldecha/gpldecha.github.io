@@ -1,0 +1,183 @@
+I"�<p>“If we would like to get real-time performance on single-CPU systems it is necessary to adapt the entire system, e.g. using the PREEMPT_RT patch or an RTOS. This is not always necessary in a multicore system.”</p>
+
+<h1 id="architecture-layout">Architecture layout</h1>
+
+<p>Before:</p>
+
+<p>lstopo</p>
+
+<p>After:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>gedit /etc/default/grub
+<span class="nv">GRUB_CMDLINE_LINUX_DEFAULT</span><span class="o">=</span><span class="s2">"quiet splash isolcpus=1,5"</span>
+</code></pre></div></div>
+
+<p>reboot and chneck that the parameter was passed to the kernel</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat</span> /proc/cmdline
+<span class="nv">BOOT_IMAGE</span><span class="o">=</span>/boot/vmlinuz-4.15.0-43-generic <span class="nv">root</span><span class="o">=</span><span class="nv">UUID</span><span class="o">=</span>47226ffd-864a-4f7d-9f15-779cdee4bdf3 ro quiet splash <span class="nv">isolcpus</span><span class="o">=</span>1,5 vt.handoff<span class="o">=</span>1
+</code></pre></div></div>
+
+<p>Processor per CPU before CPU isolation</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cpu: 0  pid: 37.0
+cpu: 1  pid: 49.0
+cpu: 2  pid: 48.0
+cpu: 3  pid: 45.0
+cpu: 4  pid: 41.0
+cpu: 5  pid: 46.0
+cpu: 6  pid: 45.0
+cpu: 7  pid: 32.0
+</code></pre></div></div>
+
+<p>Processes per CPU after CPU isolation</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cpu: 0  pid: 51.0
+cpu: 1  pid: 8.0
+cpu: 2  pid: 49.0
+cpu: 3  pid: 42.0
+cpu: 4  pid: 42.0
+cpu: 5  pid: 8.0
+cpu: 6  pid: 63.0
+cpu: 7  pid: 57.0
+</code></pre></div></div>
+
+<p>The remaining 8 process for both cpus are:</p>
+
+<ul>
+  <li>cpuhp PRI: RT NI 0</li>
+  <li>watchdog PRI: RT NI 0</li>
+  <li>migration PRI: RT NI 0</li>
+  <li>ksoftirqd PRI: 20 NI 0</li>
+  <li>kworker/1:0 PRI 20 NI 0</li>
+  <li>kworker/1:0H PRI 0 NI -20</li>
+</ul>
+
+<p><a href="https://lwn.net/Articles/520076/">linux kernel software interrupts</a></p>
+
+<p><a href="https://arxiv.org/pdf/1808.10821.pdf">Real-time Linux communications: an evaluation of the Linux
+communication stack for real-time robotic applications</a></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  stress <span class="nt">-d</span> 4 <span class="nt">--hdd-bytes</span> 20M <span class="nt">-c</span> 4 <span class="nt">-i</span> 4 <span class="nt">-m</span> 4 <span class="nt">--vm-bytes</span> 15M <span class="nt">-t</span> 40s
+</code></pre></div></div>
+
+<h2 id="ethernet-optimization">Ethernet Optimization</h2>
+
+<ul>
+  <li>
+    <p><a href="https://www.cubrid.org/blog/understanding-tcp-ip-network-stack">Network Stack</a></p>
+  </li>
+  <li>
+    <p><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/resource_management_guide/net_prio">net_prio</a></p>
+  </li>
+  <li>
+    <p><a href="https://blog.cloudflare.com/how-to-achieve-low-latency/">How to achieve low latency</a></p>
+  </li>
+  <li>
+    <p><a href="https://01.org/linux-interrupt-moderation">IMPROVE NETWORK PERFORMANCE BY SETTING PER-QUEUE INTERRUPT MODERATION IN LINUX</a></p>
+  </li>
+  <li>
+    <p><a href="https://wiki.debian.org/TrafficControl">Traffic Control</a></p>
+  </li>
+  <li>
+    <p><a href="https://serverfault.com/questions/623780/low-latency-tcp-settings-on-ubuntu">Low latency tcp settings on ubuntu</a></p>
+  </li>
+  <li>
+    <p><a href="https://access.redhat.com/sites/default/files/attachments/201501-perf-brief-low-latency-tuning-rhel7-v1.pdf">Low latency tuning on red hat</a></p>
+  </li>
+</ul>
+
+<h3 id="network-questions">network questions</h3>
+
+<ul>
+  <li>Is there one transmite queue per interface ?</li>
+  <li>Can I increase the rate at which TCP execution occures.</li>
+  <li>What does increasing the interrupt rate of the NIC driver do ?</li>
+</ul>
+
+<h3 id="rx-tx-optimization">rx-tx optimization</h3>
+
+<p><em>/sys/class/net</em> holds all the network interfaces
+<em>/sys/class/net/eno1/queues</em> holds queues for receiving and sending data over the network interface
+card. In my case I have:</p>
+
+<ul>
+  <li>rx-0</li>
+  <li>tx-0</li>
+</ul>
+
+<p>I have one queue for receiving data (rx-0) and one for sending data (tx-0)</p>
+
+<h2 id="low-latency-ubuntu-kernel">low latency ubuntu kernel</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-get <span class="nb">install </span>linux-lowlatency
+</code></pre></div></div>
+
+<h3 id="low-latency-vs-generic-ubuntu-kernel">Low latency vs generic ubuntu Kernel</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>diff config-4.15.0-50-generic config-4.15.0-50-lowlatency
+</code></pre></div></div>
+
+<p>The low latency has the following additions:</p>
+
+<ul>
+  <li>CONFIG_IRQ_FORCED_THREADING_DEFAULT=y</li>
+  <li>CONFIG_TREE_RCU (removed)</li>
+  <li>CONFIG_PREEMPT_RCU=y</li>
+  <li>
+    <p>CONFIG_UNINLINE_SPIN_UNLOCK=y</p>
+  </li>
+  <li>CONFIG_PREEMPT_VOLUNTARY=y (removed)</li>
+  <li>CONFIG_PREEMPT=y</li>
+  <li>
+    <p>CONFIG_PREEMPT_COUNT=y</p>
+  </li>
+  <li>CONFIG_HZ_1000=y</li>
+  <li>
+    <p>CONFIG_HZ=1000</p>
+  </li>
+  <li>CONFIG_CEC_PIN=y (removed)</li>
+  <li>
+    <p>CONFIG_CEC_GPIO=m</p>
+  </li>
+  <li>CONFIG_LATENCYTOP=y</li>
+  <li>CONFIG_PREEMPT_TRACER (removed)</li>
+</ul>
+
+<h3 id="bios-settings">Bios settings</h3>
+
+<ul>
+  <li>
+    <p><a href="https://homerl.github.io/2018/05/27/bios/">BIOS settings</a></p>
+  </li>
+  <li>
+    <p>C-State
+The C-State represents the processor power
+state of the core. The C-State is often more commonly known as the
+processor “idle” state of the core. C-State values range from C0 to Cn, where
+n is dependent on the specific processor. When the core is active and
+executing instructions it is in the C0 state. Higher C-States indicate how deep
+the CPU idle state is.</p>
+  </li>
+  <li>
+    <p>P-State
+The voltage frequency pair is known as the Device and Processor
+Performance State (P-State). A P-State of P0 is the highest voltage/frequency
+pairing. A high P-State will have lower voltage and frequency levels. It takes
+the processor longer to complete a task in a high P-State, but less energy is
+consumed.</p>
+  </li>
+</ul>
+
+<h2 id="links">Links</h2>
+
+<ul>
+  <li><a href="https://greenhost.net/blog/2013/04/10/multi-queue-network-interfaces-with-smp-on-linux/">Ethernet optimization</a></li>
+  <li><a href="https://wiki.linuxfoundation.org/networking/bonding">Networking bonding</a></li>
+  <li><a href="https://eli.thegreenplace.net/2016/c11-threads-affinity-and-hyperthreading/">C++11 thread affinity</a></li>
+  <li><a href="http://linuxrealtime.org/index.php/Improving_the_Real-Time_Properties#Benchmarks_for_CPU_Isolation">Improving real time properties</a></li>
+  <li><a href="https://wiki.fd.io/view/VPP/How_To_Optimize_Performance_(System_Tuning)">How To Optimize Performance</a></li>
+  <li><a href="https://www.kernel.org/doc/Documentation/IRQ-affinity.txt">Linux kernel IRQ affinity</a> is a good resouce on the subject.</li>
+  <li><a href="https://cs.uwaterloo.ca/~brecht/servers/apic/SMP-affinity.txt">SMP-affinity</a></li>
+</ul>
+:ET

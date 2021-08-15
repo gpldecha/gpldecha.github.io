@@ -1,0 +1,52 @@
+I"$<h1 id="row-major">Row-major</h1>
+
+<ul>
+  <li><a href="http://eli.thegreenplace.net/2015/memory-layout-of-multi-dimensional-arrays/">memory-layout-of-multi-dimensional-arrays</a></li>
+</ul>
+
+<h1 id="terminology">Terminology</h1>
+
+<h3 id="name-mangling">name mangling</h3>
+
+<p>Adds meta-data to the name of a function. This process, in the case of C++, takes
+place during the compilation. One reason for this is that the compilation process
+first converts the C++ code to C and C only allows unique function names throughout
+the program.</p>
+
+<p><em>resources</em>:</p>
+
+<ul>
+  <li><a href="https://en.wikipedia.org/wiki/Name_mangling#C.2B.2B">wiki name mangling</a></li>
+</ul>
+
+<h1 id="c">C++</h1>
+
+<ul>
+  <li><a href="https://github.com/bast/gtest-demo">Example of gtest with travis</a></li>
+</ul>
+
+<h1 id="python">Python</h1>
+
+<h2 id="how-to--structure-a-python-project">How to  structure a python project</h2>
+
+<p><a href="http://stackoverflow.com/questions/193161/what-is-the-best-project-structure-for-a-python-application">what-is-the-best-project-structure-for-a-python-application</a></p>
+
+<h2 id="how-to-package-your-python-code">How To Package Your Python Code</h2>
+
+<ul>
+  <li><a href="https://python-packaging.readthedocs.io/en/latest/">How To Package Your Python Code</a></li>
+  <li><a href="https://packaging.python.org/distributing/#uploading-your-project-to-pypi">Uploading your project to pypi</a></li>
+</ul>
+
+<h2 id="module-path-system">module path system</h2>
+
+<p>Important component which will frustrate most beginners if not understood
+from the very beginning.</p>
+
+<p><a href="https://docs.python.org/3/reference/import.html">python-import</a></p>
+
+<h2 id="importing-a-module-into-another-whilst-both-are-located-in-different-folders">importing a module into another whilst both are located in different folders</h2>
+
+<p><a href="http://stackoverflow.com/questions/37233140/python-module-not-found">python-modules-not-found</a>
+<a href="http://stackoverflow.com/questions/714063/importing-modules-from-parent-folder">importing-modules-from-parent-folder</a></p>
+:ET

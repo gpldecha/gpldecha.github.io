@@ -1,0 +1,33 @@
+I"
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Guillaume's draws
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/ml/">Machine Learning</a>
+            </li><li class="masthead__menu-item">
+              <a href="/cs/">Computer Science</a>
+            </li><li class="masthead__menu-item">
+              <a href="/robotics/">Robotics</a>
+            </li><li class="masthead__menu-item">
+              <a href="/notes/">Notes</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+:ET

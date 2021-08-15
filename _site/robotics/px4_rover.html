@@ -1,0 +1,664 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>PX4 rover tutorial - Guillaume’s draws</title>
+<meta name="description" content="Example tutorial of px4 rover running Pixhawk2">
+
+
+  <meta name="author" content="Guillaume de Chambrier">
+  
+  <meta property="article:author" content="Guillaume de Chambrier">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en">
+<meta property="og:site_name" content="Guillaume's draws">
+<meta property="og:title" content="PX4 rover tutorial">
+<meta property="og:url" content="https://gpldecha.github.io/robotics/px4_rover">
+
+
+  <meta property="og:description" content="Example tutorial of px4 rover running Pixhawk2">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2021-08-15T21:44:53+01:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://gpldecha.github.io/robotics/px4_rover">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Guillaume de Chambrier",
+      "url": "https://gpldecha.github.io/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Guillaume's draws Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Guillaume's draws
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/ml/">Machine Learning</a>
+            </li><li class="masthead__menu-item">
+              <a href="/cs/">Computer Science</a>
+            </li><li class="masthead__menu-item">
+              <a href="/robotics/">Robotics</a>
+            </li><li class="masthead__menu-item">
+              <a href="/notes/">Notes</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+  
+
+
+
+
+
+
+
+<div class="page__hero--overlay"
+  style="background-color: #333; background-image: url('');"
+>
+  
+    <div class="wrapper">
+      <h1 id="page-title" class="page__title" itemprop="headline">
+        
+          PX4 rover tutorial
+
+        
+      </h1>
+      
+        <p class="page__lead">Example tutorial of px4 rover running Pixhawk2
+</p>
+      
+      
+
+
+      
+      
+    </div>
+  
+  
+</div>
+
+
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/images/bio-photo-2.jpg" alt="Guillaume de Chambrier" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">Guillaume de Chambrier</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">London</span>
+        </li>
+      
+
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            <li><a href="https://github.com/gpldecha" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:chambrierg@gmail.com">
+            <meta itemprop="email" content="chambrierg@gmail.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="PX4 rover tutorial">
+    <meta itemprop="description" content="Example tutorial of px4 rover running Pixhawk2">
+    <meta itemprop="datePublished" content="2021-08-15T21:44:53+01:00">
+    
+
+    <div class="page__inner-wrap">
+      
+
+      <section class="page__content" itemprop="text">
+        
+        <h1 id="building-the-firmware">Building the Firmware</h1>
+
+<ol>
+  <li>
+    <p>Uncomment in the file src/Firmware/cmake/configs/nuttx_px4fmu-v2_default.cmake the line examples/px4_simple_app. This will register the application src/examples/px4_simple_app.</p>
+  </li>
+  <li>
+    <p>Rebuild the Firmware:</p>
+  </li>
+</ol>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  ~/src/Firmware<span class="nv">$ </span>make px4fmu-v3_rover
+</code></pre></div></div>
+
+<ol>
+  <li>Upload it to the board.
+This step will erase what is currently installed on the board and
+processed to install the new compiled px4 Firmware.</li>
+</ol>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  ~/src/Firmware<span class="nv">$ </span>make px4fmu-v3_rover upload
+
+chip: 20016419
+family: STM32F42x
+revision: 3
+flash 2080768
+
+Erase  : <span class="o">[====================]</span> 100.0%
+Program: <span class="o">[====================]</span> 100.0%
+Verify : <span class="o">[====================]</span> 100.0%
+Rebooting.
+
+</code></pre></div></div>
+
+<ol>
+  <li>Check if all is good by connecting to the console onboard
+the pixhawk via mavlink.</li>
+</ol>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~/src/Firmware/Tools<span class="nv">$ </span>./mavlink_shell.py /dev/ttyACM0
+Connecting to MAVLINK...
+
+NuttShell <span class="o">(</span>NSH<span class="o">)</span>
+nsh&gt;
+nsh&gt; <span class="nb">help</span>
+...
+dataman
+px4_simple_app
+serdis
+...
+</code></pre></div></div>
+<p>Note that px4_simple_app is now part of the available commands. Start it by typing px4_simple_app and ENTER:</p>
+
+<h1 id="modules">Modules</h1>
+
+<h2 id="general-system-control">General system control</h2>
+
+<ul>
+  <li>modules/commander</li>
+  <li>modules/events</li>
+  <li>modules/gpio_led</li>
+  <li>modules/load_mon</li>
+  <li>modules/mavlink</li>
+</ul>
+
+<h2 id="estimation-modules">Estimation modules</h2>
+
+<h2 id="vehicle-control">Vehicle control</h2>
+
+<p>modules/navigator
+modules/uavcan
+modules/camera_feedback</p>
+
+<h1 id="communcation-between-raspberrypi-and-pixhawk2">Communcation between Raspberrypi and Pixhawk2</h1>
+
+<p>The pixhawk2 outputs information on the TELEM2 connection which
+is done via the /dev/ttyAMA0 device. The device transmits on a
+Broadcom UART.</p>
+
+<h3 id="arming-example">Arming example</h3>
+
+<h3 id="companion-computerground-station">Companion computer/ground station</h3>
+
+<p>Mavproxy can be used to send commands to the pixhawk flight stack.
+Consier the arming of the vehicle from the terminal:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;</span> arm throttle
+</code></pre></div></div>
+<p>The following code in the MAVProxy will be called (see <a href="https://github.com/ArduPilot/MAVProxy/blob/master/MAVProxy/modules/mavproxy_arm.py">mavproxy_arm.py</a>):</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">"throttle"</span><span class="p">:</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">master</span><span class="p">.</span><span class="n">arducopter_arm</span><span class="p">()</span>
+    <span class="k">return</span>
+
+<span class="k">def</span> <span class="nf">arducopter_arm</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+  <span class="s">'''arm motors (arducopter only)'''</span>
+  <span class="k">if</span> <span class="bp">self</span><span class="p">.</span><span class="n">mavlink10</span><span class="p">():</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">mav</span><span class="p">.</span><span class="n">command_long_send</span><span class="p">(</span>
+                <span class="bp">self</span><span class="p">.</span><span class="n">target_system</span><span class="p">,</span>  <span class="c1"># target_system
+</span>                <span class="bp">self</span><span class="p">.</span><span class="n">target_component</span><span class="p">,</span>
+                <span class="n">mavlink</span><span class="p">.</span><span class="n">MAV_CMD_COMPONENT_ARM_DISARM</span><span class="p">,</span> <span class="c1"># command
+</span>                <span class="mi">0</span><span class="p">,</span> <span class="c1"># confirmation
+</span>                <span class="mi">1</span><span class="p">,</span> <span class="c1"># param1 (1 to indicate arm)
+</span>                <span class="mi">0</span><span class="p">,</span> <span class="c1"># param2 (all other params meaningless)
+</span>                <span class="mi">0</span><span class="p">,</span> <span class="c1"># param3
+</span>                <span class="mi">0</span><span class="p">,</span> <span class="c1"># param4
+</span>                <span class="mi">0</span><span class="p">,</span> <span class="c1"># param5
+</span>                <span class="mi">0</span><span class="p">,</span> <span class="c1"># param6
+</span>                <span class="mi">0</span><span class="p">)</span> <span class="c1"># param7
+</span></code></pre></div></div>
+<p>You can see that MAVProxy is wrapper of <a href="https://github.com/ArduPilot/pymavlink">pymavlink</a> which does the actual sending of the mavlink message over the ttyAMA0 device.
+Below is the functin definition from pymavlink.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">command_long_send</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target_system</span><span class="p">,</span> <span class="n">target_component</span><span class="p">,</span> <span class="n">command</span><span class="p">,</span> <span class="n">confirmation</span><span class="p">,</span> <span class="n">param1</span><span class="p">,</span> <span class="n">param2</span><span class="p">,</span> <span class="n">param3</span><span class="p">,</span> <span class="n">param4</span><span class="p">,</span> <span class="n">param5</span><span class="p">,</span> <span class="n">param6</span><span class="p">,</span> <span class="n">param7</span><span class="p">,</span> <span class="n">force_mavlink1</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+  <span class="s">'''
+    Send a command with up to seven parameters to the MAV
+
+        target_system             : System which should execute the command (uint8_t)
+        target_component          : Component which should execute the command, 0 for all components (uint8_t)
+        command                   : Command ID, as defined by MAV_CMD enum. (uint16_t)
+        confirmation              : 0: First transmission of this command. 1-255: Confirmation transmissions (e.g. for kill command) (uint8_t)
+        param1                    : Parameter 1, as defined by MAV_CMD enum. (float)
+        param2                    : Parameter 2, as defined by MAV_CMD enum. (float)
+        param3                    : Parameter 3, as defined by MAV_CMD enum. (float)
+        param4                    : Parameter 4, as defined by MAV_CMD enum. (float)
+        param5                    : Parameter 5, as defined by MAV_CMD enum. (float)
+        param6                    : Parameter 6, as defined by MAV_CMD enum. (float)
+        param7                    : Parameter 7, as defined by MAV_CMD enum. (float)
+'''</span>
+</code></pre></div></div>
+
+<p>Next we see how the Pixhawk receives and processes the message.</p>
+
+<h3 id="pixhawk">Pixhawk</h3>
+
+<p>In the file <strong>src/modules/mavlink/mavlink_receiver.cpp</strong> incoming mavlink messages
+are received and published via the micro object request broker (uORB) protocol.</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="n">MavlinkReceiver</span><span class="o">::</span><span class="n">handle_message_command_long</span><span class="p">(</span><span class="n">mavlink_message_t</span> <span class="o">*</span><span class="n">msg</span><span class="p">){</span>
+	<span class="cm">/* command */</span>
+	<span class="n">mavlink_command_long_t</span> <span class="n">cmd_mavlink</span><span class="p">;</span>
+	<span class="n">mavlink_msg_command_long_decode</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">cmd_mavlink</span><span class="p">);</span>
+
+	<span class="kt">bool</span> <span class="n">target_ok</span> <span class="o">=</span> <span class="n">evaluate_target_ok</span><span class="p">(</span><span class="n">cmd_mavlink</span><span class="p">.</span><span class="n">command</span><span class="p">,</span> <span class="n">cmd_mavlink</span><span class="p">.</span><span class="n">target_system</span><span class="p">,</span> <span class="n">cmd_mavlink</span><span class="p">.</span><span class="n">target_component</span><span class="p">);</span>
+
+  <span class="p">(</span><span class="n">code</span> <span class="n">hidden</span> <span class="k">for</span> <span class="n">brevity</span><span class="p">)</span>
+
+  <span class="k">struct</span> <span class="nc">vehicle_command_s</span> <span class="n">vcmd</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="p">.</span><span class="n">timestamp</span> <span class="o">=</span> <span class="n">hrt_absolute_time</span><span class="p">(),</span>
+  <span class="p">.</span><span class="n">param5</span> <span class="o">=</span> <span class="n">cmd_mavlink</span><span class="p">.</span><span class="n">param5</span><span class="p">,</span>
+  <span class="p">.</span><span class="n">param6</span> <span class="o">=</span> <span class="n">cmd_mavlink</span><span class="p">.</span><span class="n">param6</span><span class="p">,</span>
+  <span class="cm">/* Copy the content of mavlink_command_long_t cmd_mavlink into command_t cmd */</span>
+  <span class="p">.</span><span class="n">param1</span> <span class="o">=</span> <span class="n">cmd_mavlink</span><span class="p">.</span><span class="n">param1</span><span class="p">,</span>
+  <span class="p">.</span><span class="n">param2</span> <span class="o">=</span> <span class="n">cmd_mavlink</span><span class="p">.</span><span class="n">param2</span><span class="p">,</span>
+  <span class="p">.</span><span class="n">param3</span> <span class="o">=</span> <span class="n">cmd_mavlink</span><span class="p">.</span><span class="n">param3</span><span class="p">,</span>
+  <span class="p">.</span><span class="n">param4</span> <span class="o">=</span> <span class="n">cmd_mavlink</span><span class="p">.</span><span class="n">param4</span><span class="p">,</span>
+  <span class="p">.</span><span class="n">param7</span> <span class="o">=</span> <span class="n">cmd_mavlink</span><span class="p">.</span><span class="n">param7</span><span class="p">,</span>
+  <span class="c1">// XXX do proper translation</span>
+  <span class="p">.</span><span class="n">command</span> <span class="o">=</span> <span class="n">cmd_mavlink</span><span class="p">.</span><span class="n">command</span><span class="p">,</span>
+  <span class="p">.</span><span class="n">target_system</span> <span class="o">=</span> <span class="n">cmd_mavlink</span><span class="p">.</span><span class="n">target_system</span><span class="p">,</span>
+  <span class="p">.</span><span class="n">target_component</span> <span class="o">=</span> <span class="n">cmd_mavlink</span><span class="p">.</span><span class="n">target_component</span><span class="p">,</span>
+  <span class="p">.</span><span class="n">source_system</span> <span class="o">=</span> <span class="n">msg</span><span class="o">-&gt;</span><span class="n">sysid</span><span class="p">,</span>
+  <span class="p">.</span><span class="n">source_component</span> <span class="o">=</span> <span class="n">msg</span><span class="o">-&gt;</span><span class="n">compid</span><span class="p">,</span>
+  <span class="p">.</span><span class="n">confirmation</span> <span class="o">=</span> <span class="n">cmd_mavlink</span><span class="p">.</span><span class="n">confirmation</span><span class="p">,</span>
+  <span class="p">.</span><span class="n">from_external</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="p">};</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="n">_cmd_pub</span> <span class="o">==</span> <span class="nb">nullptr</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">_cmd_pub</span> <span class="o">=</span> <span class="n">orb_advertise_queue</span><span class="p">(</span><span class="n">ORB_ID</span><span class="p">(</span><span class="n">vehicle_command</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">vcmd</span><span class="p">,</span> <span class="n">vehicle_command_s</span><span class="o">::</span><span class="n">ORB_QUEUE_LENGTH</span><span class="p">);</span>
+
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+  <span class="n">orb_publish</span><span class="p">(</span><span class="n">ORB_ID</span><span class="p">(</span><span class="n">vehicle_command</span><span class="p">),</span> <span class="n">_cmd_pub</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">vcmd</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>The commander, see file <strong>src/modules/commander/commander.cpp</strong>, subscribs to the vehicle_command uORB topic and is able
+to further process arm command.</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/* Subscribe to command topic */</span>
+<span class="kt">int</span> <span class="n">cmd_sub</span> <span class="o">=</span> <span class="n">orb_subscribe</span><span class="p">(</span><span class="n">ORB_ID</span><span class="p">(</span><span class="n">vehicle_command</span><span class="p">));</span>
+</code></pre></div></div>
+
+<h3 id="position-control-example">Position control example</h3>
+
+<p>In <strong>/mavros/src/plugins/setpoint_position.cpp</strong> a position can be sent to the
+pixhawk with the mavlink message (set-position-target-local-ned)[http://ardupilot.org/dev/docs/copter-commands-in-guided-mode.html#copter-commands-in-guided-mode-set-position-target-local-ned].</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">set_position_target_local_ned</span><span class="p">(</span><span class="n">stamp</span><span class="p">.</span><span class="n">toNSec</span><span class="p">()</span> <span class="o">/</span> <span class="mi">1000000</span><span class="p">,</span>
+          <span class="n">utils</span><span class="o">::</span><span class="n">enum_value</span><span class="p">(</span><span class="n">MAV_FRAME</span><span class="o">::</span><span class="n">LOCAL_NED</span><span class="p">),</span>
+					<span class="n">ignore_all_except_xyz_y</span><span class="p">,</span>
+					<span class="n">p</span><span class="p">,</span>
+					<span class="n">Eigen</span><span class="o">::</span><span class="n">Vector3d</span><span class="o">::</span><span class="n">Zero</span><span class="p">(),</span>
+					<span class="n">Eigen</span><span class="o">::</span><span class="n">Vector3d</span><span class="o">::</span><span class="n">Zero</span><span class="p">(),</span>
+					<span class="n">ftf</span><span class="o">::</span><span class="n">quaternion_get_yaw</span><span class="p">(</span><span class="n">q</span><span class="p">),</span> <span class="mf">0.0</span><span class="p">);</span>
+</code></pre></div></div>
+<p>This message is received by the px4 mavlink process. You can see this in
+<strong>src/modules/mavlink/mavlink_receiver.cpp</strong></p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">case</span> <span class="n">MAVLINK_MSG_ID_SET_POSITION_TARGET_LOCAL_NED</span><span class="p">:</span>
+  <span class="n">handle_message_set_position_target_local_ned</span><span class="p">(</span><span class="n">msg</span><span class="p">);</span>
+  <span class="k">break</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>The mavlink message is processed in the <strong>handle_message_set_position_target_local_ned</strong> which publishes
+the result on a uORB topic.</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="n">_pos_sp_triplet_pub</span> <span class="o">==</span> <span class="nb">nullptr</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">_pos_sp_triplet_pub</span> <span class="o">=</span> <span class="n">orb_advertise</span><span class="p">(</span><span class="n">ORB_ID</span><span class="p">(</span><span class="n">position_setpoint_triplet</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">pos_sp_triplet</span><span class="p">);</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+  <span class="n">orb_publish</span><span class="p">(</span><span class="n">ORB_ID</span><span class="p">(</span><span class="n">position_setpoint_triplet</span><span class="p">),</span> <span class="n">_pos_sp_triplet_pub</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">pos_sp_triplet</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>The position_setpoint_triplet is further processed by anyone who subscribes to the ORB publisher.
+It looks like the navigator module takes care of further processing this commanded.</p>
+
+<p><strong>src/modules/navigator/navigator_main.cpp</strong></p>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="n">Navigator</span><span class="o">::</span><span class="n">publish_vehicle_cmd</span><span class="p">(</span><span class="k">const</span> <span class="k">struct</span> <span class="nc">vehicle_command_s</span> <span class="o">&amp;</span><span class="n">vcmd</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">_vehicle_cmd_pub</span> <span class="o">!=</span> <span class="nb">nullptr</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">orb_publish</span><span class="p">(</span><span class="n">ORB_ID</span><span class="p">(</span><span class="n">vehicle_command</span><span class="p">),</span> <span class="n">_vehicle_cmd_pub</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">vcmd</span><span class="p">);</span>
+
+	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+		<span class="n">_vehicle_cmd_pub</span> <span class="o">=</span> <span class="n">orb_advertise_queue</span><span class="p">(</span><span class="n">ORB_ID</span><span class="p">(</span><span class="n">vehicle_command</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">vcmd</span><span class="p">,</span> <span class="n">vehicle_command_s</span><span class="o">::</span><span class="n">ORB_QUEUE_LENGTH</span><span class="p">);</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h1 id="mixers">Mixers</h1>
+
+<ul>
+  <li>Folder <strong>Firmware/ROMFS/px4fmu_common/init.d</strong></li>
+  <li>file: 50002_traxxas_stampede_2wd (for throttle and steering)</li>
+  <li>Folder <strong>Firmware/ROMFS/px4fmu_common/mixers/</strong></li>
+</ul>
+
+<h1 id="devices">devices</h1>
+
+<ul>
+  <li>/dev/ttyACM0 is a USB communication device (CDC) of sub-type “abstract control model” (ACM).</li>
+  <li>/dev/ttyAMA0 is the Broadcom UART (appears as under Linux).</li>
+</ul>
+
+<h1 id="resources">Resources</h1>
+
+<ul>
+  <li><a href="http://ardupilot.org/dev/docs/building-px4-for-linux-with-make.html">building-px4-for-linux-with-make</a></li>
+  <li><a href="https://dev.px4.io/en/simulation/gazebo.html">px4 gazebo simulation</a></li>
+  <li><a href="https://dev.px4.io/en/simulation/ros_interface.html">Mavros and gazebo simulation</a></li>
+</ul>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2021-08-15T21:44:53+01:00">August 15, 2021</time></p>
+
+
+      </footer>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/robotics/jacobian" class="pagination--pager" title="Jacobian
+">Previous</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2021 Guillaume de Chambrier. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>

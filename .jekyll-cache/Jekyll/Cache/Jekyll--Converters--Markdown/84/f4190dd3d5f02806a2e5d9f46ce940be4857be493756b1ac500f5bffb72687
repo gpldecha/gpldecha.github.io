@@ -1,0 +1,51 @@
+I"
+<p>Check which preempts are set on your distribution:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">cat</span> /boot/config-4.15.0-50-generic | <span class="nb">grep </span>PREEMPT
+</code></pre></div></div>
+<ul>
+  <li>CONFIG_PREEMPT</li>
+  <li>CONFIG_PREEMPTIRQ_EVENTS</li>
+  <li>CONFIG_HZ</li>
+</ul>
+
+<p>These options should be set (according to <a href="https://www.osadl.org/Real-time-Ethernet-UDP-worst-case-roun.qa-farm-rt-ethernet-udp-monitor.0.html">Real time ethernet</a>)</p>
+<ul>
+  <li>CONFIG_RCU_BOOST=y</li>
+  <li>CONFIG_RCU_BOOST_PRIO=99</li>
+</ul>
+
+<p><a href="https://www.advenage.com/topics/linux-timer-interrupt-frequency">How To determine Linux Kernel Timer Interrupt Frequency</a></p>
+
+<p><a href="https://www.oreilly.com/library/view/linux-device-drivers/0596005903/ch10.html">Interupt handling</a>
+<a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/performance_tuning_guide/index">Red hat performance tuning</a></p>
+
+<h3 id="compile-linux-kernel-with-preempt_rt-for-ubuntu-1804">Compile linux kernel with preempt_rt for ubuntu 18.04</h3>
+
+<ol>
+  <li>Check your kernel version</li>
+</ol>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">uname</span> <span class="nt">-r</span>
+</code></pre></div></div>
+<p><a href="https://people.canonical.com/~kernel/info/kernel-version-map.html">Ubuntu and linux kernel versions</a></p>
+
+<p><a href="http://kernel-notes.gbittencourt.net/compiling-preempt-rt/">Notes on compiling preempt_rt</a></p>
+
+<h3 id="setting-rt-priority-on-non-rt-kernel">Setting RT priority on non-rt kernel</h3>
+
+<p><a href="https://jackaudio.org/faq/linux_rt_config.html">Audio jack rt Linux configuration</a></p>
+
+<h3 id="references">References</h3>
+
+<p><a href="https://software.intel.com/en-us/articles/optimizing-computer-applications-for-latency-part-1-configuring-the-hardware">Intel Optimizing Computer applications for latency</a></p>
+
+<h3 id="video">Video</h3>
+
+<p><a href="https://www.youtube.com/watch?v=pIJ3Zv_uxn0&amp;list=WL&amp;index=8&amp;t=1163s">Maintaining a Real Time Stable Kernel - Steven Rostedt, VMware
+</a></p>
+
+<p><a href="https://www.youtube.com/watch?v=w3yT8zJe0Uw&amp;list=PL4bIb95zE1Mqv1VbHeBCzH7K0ZscOgAz_">Kernel Recipes 2016 - Understanding a Real-Time System (more than just a kernel)</a></p>
+
+<p><a href="https://www.youtube.com/watch?v=2kNih0fqnzQ">Linux Performance Optimization - Red Hat EX442 - Complete Video Course</a></p>
+:ET

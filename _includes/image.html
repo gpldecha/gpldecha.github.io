@@ -1,0 +1,32 @@
+{% include base_path %}
+
+
+{% assign bbox = true %}
+{% if include.bbox == "false" %}
+  {% assign bbox = false %}
+{% endif %}
+
+
+<!-- _includes/image.html -->
+<div class="image-wrapper" >
+  {% if bbox == true %}
+  <div class="boxed">
+  {% endif %}
+    {% if include.url %}
+    <a href="{{ include.url }}" title="{{ include.title }}" target="_blank">
+    {% endif %}
+        <img src="{{ include.img | prepend: "/images/" | prepend: base_path }}" alt="{{ include.title }}" align="middle"/>
+    {% if include.url %}
+    </a>
+    {% endif %}
+  {% if bbox == true %}
+  </div>
+  {% endif %}
+
+  {% if include.caption %}
+  <br>
+    <div class="boxed">
+        <p class="image-caption"> <b>Figure: {{ include.title }}</b> <a name="{{include.cap_id}}"></a> {{ include.caption }}</p>
+      </div>
+  {% endif %}
+</div>

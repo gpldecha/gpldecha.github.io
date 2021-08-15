@@ -1,0 +1,63 @@
+I"E<!-- KaTeX -->
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+
+<h3 id="exercise-29">Exercise 2.9</h3>
+
+<p>Demonstration that the soft-max distribution is equal to the logistic
+and sigmoid distribution for the case of two actions.</p>
+
+<p>First we show that the soft-max is a logistic function.
+\(\begin{align}
+ Pr(A = a_1) &amp;= \frac{\exp H_t(a_1)}{ \exp H_t(a_0) +  \exp H_t(a_1)} \\
+             &amp;= \frac{\exp \left( H_t(a_1) -  H_t(a_0) \right)}{ \exp \left(H_t(a_0) - H_t(a_0)\right)  +  \exp \left( H_t(a_1) -  H_t(a_0) \right)} \\
+             &amp;= \frac{\exp \left( H_t(a_1) -  H_t(a_0) \right)}{ 1 +  \exp \left( H_t(a_1) -  H_t(a_0) \right)}
+\end{align}\)</p>
+
+<p>Secondly, a sigmoid function refers to the special case of the logistic
+function. From the following relation</p>
+
+\[f(x) = \frac{\exp(x)}{1 + \exp(x)} =  \frac{1}{1 + \exp(-x)}\]
+
+<p>it is clear that the logistic function is also a sigmoid function.</p>
+
+<h3 id="exercise-210">Exercise 2.10</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>case</th>
+      <th>\(q(a_1)\)</th>
+      <th>\(q(a_2)\)</th>
+      <th>\(P(X)\)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>A</td>
+      <td>0.1</td>
+      <td>0.2</td>
+      <td>\(P(A) = 0.5\)</td>
+    </tr>
+    <tr>
+      <td>B</td>
+      <td>0.9</td>
+      <td>0.8</td>
+      <td>\(P(B) = 0.5\)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>If you are not able to tell which case you face at any step, what is the best expectation of success you can achieve and how should you behave to achieve it.</p>
+
+<p>Allways choose action</p>
+
+<p>a1</p>
+
+\[\mathbb{E}_{P}[q|a_1] = P(A)q(a_1|A) + P(B)q(a_1|B) = 0.5\]
+
+<p>a2</p>
+
+\[\mathbb{E}_{P}[q|a_2] = P(A)q(a_2|A) + P(B)q(a_2|B) = 0.5\]
+
+<p>Either choosing \(a_1\) or \(a_1\) leads to the same expected value.</p>
+:ET

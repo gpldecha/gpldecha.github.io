@@ -1,0 +1,377 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Policy gradient notes - Guillaume’s draws</title>
+<meta name="description" content="Derivation of principals underlying policy gradient methods">
+
+
+  <meta name="author" content="Guillaume de Chambrier">
+  
+  <meta property="article:author" content="Guillaume de Chambrier">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en">
+<meta property="og:site_name" content="Guillaume's draws">
+<meta property="og:title" content="Policy gradient notes">
+<meta property="og:url" content="https://gpldecha.github.io/ml/policy_gradient/">
+
+
+  <meta property="og:description" content="Derivation of principals underlying policy gradient methods">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2021-08-15T21:44:53+01:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://gpldecha.github.io/ml/policy_gradient/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Guillaume de Chambrier",
+      "url": "https://gpldecha.github.io/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Guillaume's draws Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Guillaume's draws
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/ml/">Machine Learning</a>
+            </li><li class="masthead__menu-item">
+              <a href="/cs/">Computer Science</a>
+            </li><li class="masthead__menu-item">
+              <a href="/robotics/">Robotics</a>
+            </li><li class="masthead__menu-item">
+              <a href="/notes/">Notes</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+  
+
+
+
+
+
+
+
+<div class="page__hero--overlay"
+  style="background-color: #333; background-image: url('');"
+>
+  
+    <div class="wrapper">
+      <h1 id="page-title" class="page__title" itemprop="headline">
+        
+          Policy gradient notes
+
+        
+      </h1>
+      
+        <p class="page__lead">Derivation of principals underlying policy gradient methods
+</p>
+      
+      
+
+
+      
+      
+    </div>
+  
+  
+</div>
+
+
+
+
+
+<div id="main" role="main">
+  
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Policy gradient notes">
+    <meta itemprop="description" content="Derivation of principals underlying policy gradient methods">
+    <meta itemprop="datePublished" content="2021-08-15T21:44:53+01:00">
+    
+
+    <div class="page__inner-wrap">
+      
+
+      <section class="page__content" itemprop="text">
+        
+        <!-- KaTeX -->
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+
+<h2 id="resources">Resources</h2>
+
+<p><a href="http://www.1-4-5.net/~dmm/ml/policy_gradient_methods_for_robotics.pdf">Policy gradient methods for robotics </a>
+<a href="http://www.argmin.net/">arg min blog: a blog of minimum value</a></p>
+
+<h2 id="notation">Notation</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>variable</th>
+      <th style="text-align: center">dimension</th>
+      <th>name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>\(\tau\)</td>
+      <td style="text-align: center">\(s_0, u_0, \dots, s_{H-1}, u_{H-1}\)</td>
+      <td>trajectory</td>
+    </tr>
+    <tr>
+      <td>\(p(s_{t+1}|s_t, u_t)\)</td>
+      <td style="text-align: center">\(\mathbb{R}\)</td>
+      <td>state transition  dynamical model</td>
+    </tr>
+    <tr>
+      <td>\(\pi_{\theta}(u_t|s_t)\)</td>
+      <td style="text-align: center">\(\mathbb{R}\)</td>
+      <td>policy</td>
+    </tr>
+    <tr>
+      <td>\(P_{\theta}(\tau)\)</td>
+      <td style="text-align: center">\(p(s_0)\prod_{t=0}^{H-1} p(s_{t+1}|s_t, u_t)\, \pi_{\theta}(u_t|s_t)\)</td>
+      <td>probability of a trajectory</td>
+    </tr>
+    <tr>
+      <td>\(R(\tau)\)</td>
+      <td style="text-align: center">\(\sum_{t=0}^{H-1} r(s_t, u_t)\)</td>
+      <td>Utility of a trajectory</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="policy--gradient-likelihood-ratio">Policy  gradient likelihood ratio</h2>
+
+<p>We seek to maximise the expected reward:</p>
+
+\[\begin{align}
+ J(\theta) &amp;= \mathbb{E}_{\tau \sim P_{\theta}}\left[ R(\tau) \right] \\
+           &amp;= \sum_{\tau} P_{\theta}(\tau) R(\tau) \\
+\end{align}\]
+
+<p>We can derive an expresion of the gradient of the above objective function which
+is <strong>independent</strong> of the state transition model \(p(s_{t+1}|s_t, u_t)\) and only depends
+on the policy.</p>
+
+\[\begin{align}
+    \nabla_{\theta} J(\theta) &amp;=  \sum_{\tau}   \nabla_{\theta} P_{\theta}(\tau) R(\tau) \\
+    &amp;=  \sum_{\tau} P_{\theta}(\tau) \frac{\nabla_{\theta} P_{\theta}(\tau)}{P_{\theta}(\tau)} R(\tau) \\
+    &amp;= \sum_{\tau} P_{\theta}(\tau) \nabla_{\theta} \log P_{\theta}(\tau) R(\tau) \\
+    &amp;= \sum_{\tau} P_{\theta}(\tau)  \nabla_{\theta} \log \left( p(s_0)\prod_{t=0}^{H-1} p(s_{t+1}|s_t, u_t)\, \pi_{\theta}(u_t|s_t) \right) R(\tau) \\
+    &amp;= \sum_{\tau} P_{\theta}(\tau)  \nabla_{\theta} \left( \log p(s_0) + \sum_{t=0}^{H-1} \log p(s_{t+1}|s_t, u_t) + \log \pi_{\theta}(u_t|s_t) \right) R(\tau) \\
+    &amp;= \sum_{\tau} P_{\theta}(\tau)   \left(\sum_{t=0}^{H-1} \nabla_{\theta} \log \pi_{\theta}(u_t|s_t) \right) R(\tau)\\
+    &amp;= \mathbb{E}_{\tau \sim P_{\theta}}\left[ \left(\sum_{t=0}^{H-1} \nabla_{\theta} \log \pi_{\theta}(u_t|s_t) \right) R(\tau) \right]
+\end{align}\]
+
+<p>As this is an expaction over trajectories we can approximate the gradient by sampling trajectories from a
+fixed policy and state transition function:</p>
+
+\[\begin{align}
+\nabla_{\theta} J(\theta) &amp;\approx \frac{1}{m} \sum_{i=1}^m  \left(\sum_{t=0}^{H-1} \nabla_{\theta} \log \pi_{\theta}(u^{(i)}_t|s^{(i)}_t) \right) R(\tau^{(i)})
+\end{align}\]
+
+<p>Each gradient is of a trajectory is weighted by the reward of the full trajectory. An observation is that the
+current actions do not depend on past rewards.</p>
+
+\[\nabla_{\theta} J(\theta) \approx \frac{1}{m} \sum_{i=1}^m  \left(\sum_{t=0}^{H-1} \nabla_{\theta} \log \pi_{\theta}(u^{(i)}_t|s^{(i)}_t)  \left[  \sum_{k=t}^{H-1} r(s^{(i)}_k, u^{(i)}_k)  \right] \right)\]
+
+<p>This as an effect of reducing the variance of the gradients’ estimate.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2021-08-15T21:44:53+01:00">August 15, 2021</time></p>
+
+
+      </footer>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/ml/gaussian_linear_regression/" class="pagination--pager" title="Weighted Gaussian Linear Regression
+">Previous</a>
+    
+    
+      <a href="/ml/reinforcement_learning_introduction/" class="pagination--pager" title="Reinforcement learning an introduction
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2021 Guillaume de Chambrier. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>

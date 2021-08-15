@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://gpldecha.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://gpldecha.github.io/" rel="alternate" type="text/html" /><updated>2021-08-15T21:44:53+01:00</updated><id>https://gpldecha.github.io/feed.xml</id><title type="html">Guillaume’s draws</title><subtitle>An amazing website.</subtitle><author><name>Guillaume de Chambrier</name><email>chambrierg@gmail.com</email></author><entry><title type="html">Ubuntu/Debian packaging</title><link href="https://gpldecha.github.io/packaging-debian/" rel="alternate" type="text/html" title="Ubuntu/Debian packaging" /><published>2016-12-06T00:00:00+00:00</published><updated>2016-12-06T00:00:00+00:00</updated><id>https://gpldecha.github.io/packaging-debian</id><content type="html" xml:base="https://gpldecha.github.io/packaging-debian/">&lt;p&gt;&lt;strong&gt;How to package a C++ program into a debian package&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;First do all all the steps in:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;a href=&quot;http://packaging.ubuntu.com/html/getting-set-up.html&quot;&gt;Getting setup&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://packaging.ubuntu.com/html/packaging-new-software.html&quot;&gt;Packaging New Software&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;I will be doing a walk through of the example given in the  &lt;a href=&quot;http://packaging.ubuntu.com/html/packaging-new-software.html&quot;&gt;Packaging New Software&lt;/a&gt;
+in which you will be deploying a simple hello world program.&lt;/p&gt;
+
+&lt;p&gt;I first created a directory hello_package, in my ubuntu package deployment workspace,
+and downloaded the hello world program as outlined in &lt;a href=&quot;http://packaging.ubuntu.com/html/packaging-new-software.html&quot;&gt;Packaging New Software&lt;/a&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;pwd&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;/home/username/ubuntu_packaging/hello_package
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;ls&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;hello-2.7  hello-2.7.tar.gz
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;After building hello-2.7 and installing it, I run bzr dh-make&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;bzr dh-make hello 2.7 hello-2.7.tar.gz
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;which takes the following options:&lt;/p&gt;
+
+&lt;p&gt;bzr dh-make PACKAGE_NAME VERSION TARBALL (see &lt;a href=&quot;http://doc.bazaar.canonical.com/plugins/en/builddeb-plugin.html&quot;&gt;builddeb-plugin&lt;/a&gt;)&lt;/p&gt;
+
+&lt;p&gt;and creates an additional directory (hello) and new tarball (hello_2.7.orig.tar.gz):&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;pwd&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;/home/username/ubuntu_packaging/hello_package
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;ls&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;hello  hello-2.7  hello_2.7.orig.tar.gz  hello-2.7.tar.gz
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;After laboriously changing all files in hello/debian as prescribed and building the
+debian package more directories are created:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;pwd&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;/home/username/ubuntu_packaging/hello_package
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;ls&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;build-area  hello  hello-2.7  hello_2.7-0ubuntu1_amd64.changes  hello_2.7-0ubuntu1_amd64.deb  hello_2.7-0ubuntu1.debian.tar.gz  hello_2.7-0ubuntu1.dsc  hello_2.7.orig.tar.gz  hello-2.7.tar.gz
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;hello_2.7-0ubuntu1_amd64.changes&lt;/li&gt;
+  &lt;li&gt;hello_2.7-0ubuntu1_amd64.deb&lt;/li&gt;
+  &lt;li&gt;hello_2.7-0ubuntu1.debian.tar.gz&lt;/li&gt;
+  &lt;li&gt;hello_2.7-0ubuntu1.dsc&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;On launchpad you have to create a new PPA for this project and upload your package to it, see &lt;a href=&quot;https://help.launchpad.net/Packaging/PPA/Uploading&quot;&gt;PPA-Uploading&lt;/a&gt;.
+Once this is down you are nearly ready to sudo apt-get install this package. Before this you have to add your ppa to your source packages. I
+ran the following command:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;add-apt-repository ppa:gpldecha/ppa-hello
+ A simple hello program which displays a greeting.
+ More info: https://launchpad.net/~gpldecha/+archive/ubuntu/ppa-hello
+Press &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;ENTER] to &lt;span class=&quot;k&quot;&gt;continue &lt;/span&gt;or ctrl-c to cancel adding it
+
+Error: signing key fingerprint does not exist
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;However it did not work, I got: &lt;strong&gt;Error: signing key fingerprint does not exist&lt;/strong&gt;.
+This is because you frist have to added the public key of the PPA to your package sources, see &lt;a href=&quot;http://ia800203.us.archive.org/23/items/LaunchpadAddingAPpasKeyToYourUbuntuSystem/launchpad-adding-key-for-signed-ppa.ogv&quot;&gt;Added key for signed PPA&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;resources&quot;&gt;Resources&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;http://packaging.ubuntu.com/html/getting-set-up.html&quot;&gt;Getting setup&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;http://packaging.ubuntu.com/html/packaging-new-software.html&quot;&gt;Packaging New Software&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;http://packaging.ubuntu.com/html/debian-dir-overview.html&quot;&gt;Debian dir overview&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://help.launchpad.net/Packaging/PPA?action=show&amp;amp;redirect=PPA#Adding%20a%20PPA%20to%20your%20Ubuntu%20repositories&quot;&gt;Packaging PPA&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;</content><author><name>Guillaume de Chambrier</name><email>chambrierg@gmail.com</email></author><summary type="html">How to package a C++ program into a debian package</summary></entry><entry><title type="html">Deploying a Python/C++ package</title><link href="https://gpldecha.github.io/deploying-python-cpp/" rel="alternate" type="text/html" title="Deploying a Python/C++ package" /><published>2016-10-31T00:00:00+00:00</published><updated>2016-10-31T00:00:00+00:00</updated><id>https://gpldecha.github.io/deploying-python-cpp</id><content type="html" xml:base="https://gpldecha.github.io/deploying-python-cpp/">&lt;p&gt;I have written a C++ library for &lt;a href=&quot;https://github.com/gpldecha/non-parametric-regression&quot;&gt;non-parametric regression&lt;/a&gt;.
+Now C++ is great if you want to write efficient code, however it is less than ideal when it comes to plotting
+and visualising data. For this either Python or Matlab are perfect candidates.&lt;/p&gt;
+
+&lt;p&gt;So I have written a Python wrapper to my C++ library with Boost.Python and I want to
+deploy it for the world to use.&lt;/p&gt;
+
+&lt;p&gt;Here are some use cases which I want my deployed package to fulfill:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;A user can either use the c++ interface or the python interface.&lt;/li&gt;
+  &lt;li&gt;It should be easy to install (of course):&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt; pip &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;npregression
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;or&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;npregression
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;approach&quot;&gt;Approach&lt;/h2&gt;
+
+&lt;p&gt;Since the C++ library should be completely independent of the wrapper it should
+be able to be installed/deployed without the wrapper.&lt;/p&gt;
+
+&lt;p&gt;If the wrapper is installed via pip it should first install the C++ library which
+is a dependency and then proceed to install the Python wrapper using standard
+pip.&lt;/p&gt;
+
+&lt;h2 id=&quot;how-to-deploy-a-c-shared-library-package&quot;&gt;How to deploy a C++ shared library package&lt;/h2&gt;
+
+&lt;p&gt;I first created a source tar ball for release on &lt;a href=&quot;https://github.com/gpldecha/non-parametric-regression/releases&quot;&gt;github&lt;/a&gt;
+which I downloaded and extracted to my debian packaging work director:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;pwd&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;/home/username/ubuntu_packaging/npregression_package
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;ls&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;non-parametric-regression-1.0 non-parametric-regression-1.0.tar.gz
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;I followed the same steps as in my previous post. When I run the command:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;bzr dh-make libnpregression 1.0 non-parametric-regression-1.0.tar.gz
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;I made sure to choose the (l)ibrary option when prompted which type debian
+package I wanted. I proceed to build the library,&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;./libnpregression&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;bzr builddeb &lt;span class=&quot;nt&quot;&gt;--&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-us&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-uc&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;however I encountered the following error:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+dh_install
+dh_install: libnpregression-dev missing files &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;usr/lib/lib&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;.a&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;, aborting
+make: &lt;span class=&quot;k&quot;&gt;***&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;binary] Error 255
+dpkg-buildpackage: error: fakeroot debian/rules binary gave error &lt;span class=&quot;nb&quot;&gt;exit &lt;/span&gt;status 2
+debuild: fatal error at line 1364:
+dpkg-buildpackage &lt;span class=&quot;nt&quot;&gt;-rfakeroot&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-D&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-us&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-uc&lt;/span&gt; failed
+bzr: ERROR: The build failed.
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;There are two important files to edit:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;libnpregression1.install&lt;/p&gt;
+
+    &lt;p&gt;usr/lib/npr/lib*.so&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;libnpregression-dev.install&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;usr/include/*&lt;/p&gt;
+
+&lt;p&gt;All builds until the next error occurs:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+dh_shlibdeps
+dpkg-shlibdeps: error: no dependency information found &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; /usr/local/lib/libarmadillo.so.5 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;used by debian/libnpregression1/usr/lib/npr/liblwr.so&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+dh_shlibdeps: dpkg-shlibdeps &lt;span class=&quot;nt&quot;&gt;-Tdebian&lt;/span&gt;/libnpregression1.substvars debian/libnpregression1/usr/lib/npr/liblwr.so returned &lt;span class=&quot;nb&quot;&gt;exit &lt;/span&gt;code 2
+make: &lt;span class=&quot;k&quot;&gt;***&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;binary] Error 2
+dpkg-buildpackage: error: fakeroot debian/rules binary gave error &lt;span class=&quot;nb&quot;&gt;exit &lt;/span&gt;status 2
+debuild: fatal error at line 1364:
+dpkg-buildpackage &lt;span class=&quot;nt&quot;&gt;-rfakeroot&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-D&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-us&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-uc&lt;/span&gt; failed
+bzr: ERROR: The build failed.
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;c-shared-library&quot;&gt;C++ shared library&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;The libraries themselves are put into a binary package named libfoo1 where foo is the name of the library and 1 is the version from the SONAME.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Development files from the package, such as header files, needed to compile programs against the library are put into a package called libfoo-dev.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;how-to-deploy-a-python-wrapper-of-a-c-library&quot;&gt;How to deploy a Python wrapper of a C++ library&lt;/h2&gt;
+
+&lt;h2 id=&quot;your-project-is-deployed&quot;&gt;Your project is deployed&lt;/h2&gt;
+
+&lt;p&gt;When a python package when deployed will typically reside on the &lt;a href=&quot;https://pypi.python.org/pypi&quot;&gt;Python Package Index&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;resources&quot;&gt;resources&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.netfort.gr.jp/~dancer/column/libpkg-guide/libpkg-guide.pdf&quot;&gt;Debian Library Packaging guide&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://robotics.usc.edu/~ampereir/wordpress/?p=202&quot;&gt;Tutorial on creating a distributable Python package using Setuptools with Boost-Python&lt;/a&gt;&lt;/p&gt;</content><author><name>Guillaume de Chambrier</name><email>chambrierg@gmail.com</email></author><summary type="html">I have written a C++ library for non-parametric regression. Now C++ is great if you want to write efficient code, however it is less than ideal when it comes to plotting and visualising data. For this either Python or Matlab are perfect candidates.</summary></entry></feed>

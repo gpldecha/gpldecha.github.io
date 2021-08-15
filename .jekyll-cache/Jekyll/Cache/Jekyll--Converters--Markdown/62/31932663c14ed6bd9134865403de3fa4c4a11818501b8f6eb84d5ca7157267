@@ -1,0 +1,145 @@
+I"(<h1 id="dronekit"><a href="https://github.com/dronekit/dronekit-python">DroneKit</a></h1>
+
+<p>DroneKit-Python allows developers to create apps that run on an onboard companion computer and communicate with the ArduPilot flight controller using a low-latency link.</p>
+
+<p>The API communicates with vehicles over MAVLink. It provides programmatic access to a connected vehicle’s telemetry, state and parameter information, and enables both mission management and direct control over vehicle movement and operations.</p>
+
+<p>Drone-kit is a python API corresponding to the functionality of mavproxy. This means you can arm, change flight modes and send waypoints.
+The constraint being that all of this happens at a low frequency.</p>
+
+<p>If you want to implement an an autonomous vehicle with your very
+own AI you would choose the <a href="http://python.dronekit.io/guide/copter/guided_mode.html#guided-mode-copter-control-movement">GUIDED</a> mode. There are <a href="http://python.dronekit.io/guide/copter/guided_mode.html#guided-mode-copter-velocity-control">two ways to
+control the vehicle</a></p>
+
+<ol>
+  <li>
+    <p>Position. In this mode positions in relative/global frame are
+sent to vehicle (over mavlink) in the form of goto commands.</p>
+  </li>
+  <li>
+    <p>Velocity
+The function send_ned_velocity() below generates a SET_POSITION_TARGET_LOCAL_NED MAVLink message which is used to directly specify the speed components of the vehicle in the MAV_FRAME_LOCAL_NED frame (relative to home location). The message is re-sent every second for the specified duration.</p>
+  </li>
+</ol>
+
+<h1 id="rc-overid">RC overid</h1>
+
+<p><a href="http://docs.erlerobotics.com/erle_robots/erle_rover/examples/teleoperation_erle_rover">teleoperation_erle_rover</a></p>
+
+<h1 id="px4-pro"><a href="https://github.com/PX4/Firmware">PX4 pro</a></h1>
+
+<p><a href="http://px4.io/">PX4 Pro</a></p>
+
+<p>Build an Agent on your offboard compute which communicate with the PX4 autopilot client. The client and agent both run as daemon process.</p>
+
+<p><a href="https://www.gitbook.com/book/px4/px4-user-guide/details">PX4-user-guide</a>
+<a href="https://dev.px4.io/en/">PX4-dev-guide</a></p>
+
+<ol>
+  <li>
+    <p><a href="https://github.com/PX4/Firmware/tree/master/src">PX4-Firmware</a>
+This repository holds the PX4 Pro flight control solution for drones, with the main applications located in the src/modules directory. It also contains the PX4 Drone Middleware Platform, which provides drivers and middleware to run drones.</p>
+  </li>
+  <li>
+    <p><a href="https://dev.px4.io/en/concept/flight_stack.html">PX4-flight stack</a></p>
+  </li>
+  <li>
+    <p><a href="https://dev.px4.io/en/concept/middleware.html">PX4-middleware</a></p>
+  </li>
+</ol>
+
+<ul>
+  <li>multiple applications known as Apps are runnig on the Pixhawk2:</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~/src/Firmware/Tools<span class="nv">$ </span>./mavlink_shell.py /dev/ttyACM0
+Connecting to MAVLINK...
+
+NuttShell <span class="o">(</span>NSH<span class="o">)</span>
+nsh&gt; <span class="nb">help</span>
+...
+Builtin Apps:
+  adc
+  tone_alarm
+  fmu
+  px4io
+  rgbled
+  mpu6000
+  mpu9250
+  lsm303d
+  l3gd20
+  hmc5883
+  ms5611
+  sf0x
+  ll40ls
+  trone
+  gps
+  pwm_out_sim
+  ets_airspeed
+  ms4525_airspeed
+  ms5525_airspeed
+  sdp3x_airspeed
+  frsky_telemetry
+  sensors
+  px4flow
+  vmount
+  pwm_input
+  camera_trigger
+  bst
+  lis3mdl
+  ulanding_radar
+  bl_update
+  config
+  hardfault_log
+  mixer
+  mtd
+  nshterm
+  param
+  perf
+  pwm
+  reboot
+  top
+  ver
+  commander
+  send_event
+  load_mon
+  navigator
+  mavlink
+  gpio_led
+  land_detector
+  camera_feedback
+  ekf2
+  fw_att_control
+  fw_pos_control_l1
+  gnd_att_control
+  gnd_pos_control
+  mc_att_control
+  mc_pos_control
+  vtol_att_control
+  logger
+  uorb
+  dataman
+  px4_simple_app
+  serdis
+  sercon
+
+</code></pre></div></div>
+
+<p>Individual message channels between Applications (Apps) are called topics in PX4.</p>
+
+<p><a href="https://dev.px4.io/en/middleware/modules_main.html">modules</a></p>
+
+<h1 id="ardupilot"><a href="https://github.com/ArduPilot/ardupilot">ArduPilot</a></h1>
+
+<p><a href="http://ardupilot.org/dev/docs/learning-the-ardupilot-codebase.html">Learning the ArduPilot Codebase</a></p>
+
+<h1 id="mavros"><a href="https://dev.px4.io/en/ros/mavros_installation.html">Mavros</a></h1>
+
+<h1 id="what-is-the-difference-between-ardupilot-and-px4">What is the difference between ArduPilot and PX4</h1>
+
+<p>ArduPilot uses</p>
+
+<h1 id="resources">Resources</h1>
+
+<p><a href="https://404warehouse.net/2016/07/11/px4-software-in-the-loopsitl-simulation-on-gazebo/">px4-gazebo</a></p>
+:ET

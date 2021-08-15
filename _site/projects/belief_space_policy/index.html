@@ -1,0 +1,830 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Learning a POMDP policy from human demonstrations - Guillaume’s draws</title>
+<meta name="description" content="Human teachers demonstrate a search task to a robot in a “Programming by Demonstration” framework.">
+
+
+  <meta name="author" content="Guillaume de Chambrier">
+  
+  <meta property="article:author" content="Guillaume de Chambrier">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en">
+<meta property="og:site_name" content="Guillaume's draws">
+<meta property="og:title" content="Learning a POMDP policy from human demonstrations">
+<meta property="og:url" content="https://gpldecha.github.io/projects/belief_space_policy/">
+
+
+  <meta property="og:description" content="Human teachers demonstrate a search task to a robot in a “Programming by Demonstration” framework.">
+
+
+
+  <meta property="og:image" content="https://gpldecha.github.io/images/projects/belief_pomdp/barret_search.jpg">
+
+
+
+
+
+  <meta property="article:published_time" content="2021-08-15T21:44:53+01:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://gpldecha.github.io/projects/belief_space_policy/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Guillaume de Chambrier",
+      "url": "https://gpldecha.github.io/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Guillaume's draws Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Guillaume's draws
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/ml/">Machine Learning</a>
+            </li><li class="masthead__menu-item">
+              <a href="/cs/">Computer Science</a>
+            </li><li class="masthead__menu-item">
+              <a href="/robotics/">Robotics</a>
+            </li><li class="masthead__menu-item">
+              <a href="/notes/">Notes</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+  
+
+
+
+
+
+
+
+<div class="page__hero"
+  style=" background-image: url('');"
+>
+  
+    <img src="/images/projects/belief_pomdp/barret_search.jpg" alt="Learning a POMDP policy from human demonstrations" class="page__hero-image">
+  
+  
+</div>
+
+
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/images/bio-photo-2.jpg" alt="Guillaume de Chambrier" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">Guillaume de Chambrier</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">London</span>
+        </li>
+      
+
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            <li><a href="https://github.com/gpldecha" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:chambrierg@gmail.com">
+            <meta itemprop="email" content="chambrierg@gmail.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+    
+      
+      
+      
+      
+    
+    
+      
+
+<nav class="nav__list">
+  
+  <input id="ac-toc" name="accordion-toc" type="checkbox" />
+  <label for="ac-toc">Toggle menu</label>
+  <ul class="nav__items">
+    
+      <li>
+        
+          <span class="nav__sub-title">Navigation</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="/">Home</a></li>
+          
+            <li><a href="/ml/">Machine Learning</a></li>
+          
+            <li><a href="/cs/">Computer Science</a></li>
+          
+            <li><a href="/robotics/">Robotics</a></li>
+          
+            <li><a href="/notes/">Notes</a></li>
+          
+            <li><a href="/about/">About</a></li>
+          
+        </ul>
+        
+      </li>
+    
+  </ul>
+</nav>
+
+    
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Learning a POMDP policy from human demonstrations">
+    <meta itemprop="description" content="Human teachers demonstrate a search task to a robot in a “Programming by Demonstration” framework.">
+    <meta itemprop="datePublished" content="2021-08-15T21:44:53+01:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Learning a POMDP policy from human demonstrations
+</h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          5 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+        
+<!-- KaTeX -->
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+
+<h2 id="objective">Objective</h2>
+
+<p>The aim of this project is to learn a belief space policy \(\pi_{\boldsymbol{\theta}}: b \mapsto a\), which takes as input a probability distribution over the state space \(b\) (belief) and outputs an action \(a\), to accomplish a <strong>search task</strong> given <strong>no visual information</strong>.</p>
+
+<p>When the state space (robot&#8217;s position) is not fully observable it is necessary to represent and consider all hypothetical positions during state estimation and planning in order to act optimally. An optimal control policy can be found by formulating the problem as a Partially Observable Markov Decision Process (POMDP) (the partiality arises from   the lack of any visual sensory information) and resolving it via Value Iteration (VI).</p>
+
+<p>This is only feasible when the both the action and state space are discrete which is not naturally the case when considering robotic systems.
+I propose a method in which a POMDP policy is learned from a set of demonstrations provided by an expert teachers.</p>
+
+<h2 id="notation-and-variables">Notation and variables</h2>
+
+<ul>
+  <li>\(x \in \mathbb{R}^3\), Cartesian position of end-effector.</li>
+  <li>\(a \in \mathbb{R}^3 = \dot{x}\), Cartesian velocity of end-effector.</li>
+  <li>\(y \in \mathbb{R}^N\), sensory measurement vector.</li>
+  <li>\(b := p(x_{t} \lvert a_{1:t},y_{0:t})\), probability distribution over state space.</li>
+  <li>\(g : b \mapsto F\), dimensionality reduction, where \(F\) is a feature vector.</li>
+</ul>
+
+<p>Figure <a href="#system_loop">System loop</a> illustrates the interaction between key
+components which dictates the behavior of the system.</p>
+
+<!-- _includes/image.html -->
+<div class="image-wrapper">
+  
+  <div class="boxed">
+  
+    
+        <img src="https://gpldecha.github.io/images/projects/belief_pomdp/control_loop.jpg" alt="System loop" align="middle" />
+    
+  
+  </div>
+  
+
+  
+  <br />
+    <div class="boxed">
+        <p class="image-caption"> <b>Figure: System loop</b> <a name=""></a> The policy outputs an action which results in a sensory response from the world which is used with the current applied action to update the probability distribution over the state space.</p>
+      </div>
+  
+</div>
+
+<p>We added between the probability distribution and policy a compression function \(g\). The motivation
+behind this component is that it is infeasible to directly learn function of
+\(b\) as it is of high dimensionality. It is thus preferable to compress it to
+a low dimensional representation whilst retaining most of the information.</p>
+
+\[F = \begin{bmatrix}
+    \hat{x} \\[0.3em]
+    U       \\[0.3em]
+    \end{bmatrix} \in \mathbb{R}^4\]
+
+<ul>
+  <li>\(\hat{x} = \arg\, \max\limits_{x_t}  p(x_{t} \lvert a_{1:t},y_{0:t})\), end-effector&#8217;s most likely position.</li>
+  <li>\(U = H\left( b \right) \in \mathbb{R}\), entropy.</li>
+</ul>
+
+<h2 id="task-and-approach">Task and approach</h2>
+
+<p>Our approach to learning the belief state control policy for our search task is based on <a href="http://www.scholarpedia.org/article/Robot_learning_by_demonstration"><em>Programming by Demonstration</em></a> (PbD). In this framework an expert
+teacher (usually a human) demonstrates to an apprentice (the robot) how to accomplish the task.  In this project the
+task was to search for a wooden block on a table whilst deprived of sight. As such when the human teacher is performing the
+search task the robot apprentice must infer the teacher&#8217;s beliefs such to associate them with his actions in order to reproduce
+the demonstrated behavior. The <a href="#concept">Figure</a> below, illustrates the transfer of the search behavior. Before the teacher
+starts the search his hand is positioned above the table (location #1) and the belief is assumed to be uniform (center illustration, red
+  probability distribution).</p>
+
+<!-- _includes/image.html -->
+<div class="image-wrapper">
+  
+  <div class="boxed">
+  
+    
+        <img src="https://gpldecha.github.io/images//projects/belief_pomdp/concept.jpg" alt="Learning to search from human demonstrations" align="middle" />
+    
+  
+  </div>
+  
+
+  
+  <br />
+    <div class="boxed">
+        <p class="image-caption"> <b>Figure: Learning to search from human demonstrations</b> <a name=""></a> <b>Left</b>: start of the search, the human has his hand located above the table in position #1 and moves his hand downwards to
+            position #2. <b>Center</b>: the belief is initially uniformly distributed (illustrated by the red density) until a contact is made with the table. <b>Right</b>: after inferring the beliefs of the human and observing his actions the robot learns to reproduce the behavior.</p>
+      </div>
+  
+</div>
+
+<p>The actions of the human teacher were recorded by a vision tracking system (<a href="http://optitrack.com/">Optitrack</a>) which was also used to infer
+the tactile and haptic sensations, \(y\). These two components are then used to update the belief following the standard Bayesian recursion.
+Given that we have access to this information we can proceed to apply the PbD methodology, whose steps are detailed in the section below.</p>
+
+<h3 id="programming-by-demonstration">Programming by Demonstration</h3>
+
+<ol>
+  <li>Gather a data set of demonstrations from the teacher: \(\mathcal{D} =  \{a^{[i]}_{1:T},b^{[i]}_{0:T} \}_{i=1:M}\), where \(i\) is the index of
+the \(i\)th demonstration (trajectory).</li>
+  <li>Compress all recorded beliefs to feature vectors \(F\).</li>
+  <li>Learn a generative joint distribution of the actions and compressed beliefs: \(\pi_{\boldsymbol{\theta}}(a,F)\)</li>
+  <li>Extract an action from the conditional and use it as a control command for the robot: \(a \sim \pi_{\boldsymbol{\theta}}(a \lvert F)\)</li>
+</ol>
+
+<p>In our setting we used a Gaussian Mixture Model (GMM) as the generative joint distribution:</p>
+
+\[\pi_{\boldsymbol{\theta}}(a,F) = \sum\limits_{k=1}^K w^{[k]} \mathcal{N}([a,F]^{\mathrm{T}};\boldsymbol{\mu},\boldsymbol{\Sigma})\]
+
+<p>The parameters \(\boldsymbol{\theta} = \{w^{[k]},\boldsymbol{\mu}^{[k]},\boldsymbol{\Sigma}^{[k]}\}_{1:K}\), are the weights, means and covariances
+of the individual Gaussian functions, \(\mathcal{N}\). The number of Gaussian components was chosen via model selection with the
+Bayesian Information Criterion (BIC) and the fitting of the parameters was done with Expectation-Maximisation (EM).</p>
+
+<h1 id="1-gather-teacher-demonstrations">1. Gather teacher demonstrations</h1>
+
+<p>A human teacher gives a demonstration on how to achieve the task (find the wooden green block on the table) given
+that he is blindfolded.
+<br /></p>
+
+<!-- _includes/image.html -->
+<div class="video-wrapper">
+  
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/J5gwhKX6jcA" frameborder="0" allowfullscreen=""></iframe>
+  
+
+  
+    <br />
+    <div class="boxed">
+        <p class="video-caption"> <b>Video: Teacher searching:</b> <a name="human_search_v"></a> A human teacher is searching for the green block on the table. He is wearing a glove with
+                                                  a tacking marker such that velocity and sensing information can be extracted.</p>
+    </div>
+  
+
+</div>
+
+<p><br /></p>
+
+<p>The position of the teacher&#8217;s hand is recorded with an vision tracking system (I was using <a href="http://optitrack.com/">Optitrack</a>). The
+sensations the human perceives are inferred from the geometric relation of his hand with a model of the environment which
+is known a priori.</p>
+
+<p><br /></p>
+
+<!-- _includes/image.html -->
+<div class="video-wrapper">
+  
+      <iframe width="640" height="640" src="https://www.youtube.com/embed/jgYcVh6pVdU" frameborder="0" allowfullscreen=""></iframe>
+  
+
+  
+    <br />
+    <div class="boxed">
+        <p class="video-caption"> <b>Video: Location belief:</b> <a name="location_belief_v"></a> Velocity and sensory information are used in Bayesian filter (Point Mass Filter) to update the location belief of the teacher.</p>
+    </div>
+  
+
+</div>
+
+<p><br /></p>
+
+<p>From multiple demonstrated searches a dataset \(\mathcal{D}\) is obtained from which a
+generative GMM model is learned.</p>
+
+<h1 id="3-learn-generative-distribution-and-extract-actions">3. Learn generative distribution and extract actions</h1>
+
+<p><a href="#gmm_policy">Figure GMM Policy</a> illustrates the marginal distribtion of the GMM model after the number of components
+was selected via the Bayesian Information Criterion (BIC).</p>
+
+<!-- _includes/image.html -->
+<div class="image-wrapper">
+  
+  <div class="boxed">
+  
+    
+        <img src="https://gpldecha.github.io/images//projects/belief_pomdp/gmm_model.jpg" alt="GMM policy" align="middle" />
+    
+  
+  </div>
+  
+
+  
+  <br />
+    <div class="boxed">
+        <p class="image-caption"> <b>Figure: GMM policy</b> <a name=""></a> The marginalised Gaussian functions of the generative GMM model are illustrated on the table's surface. If the model is
+            conditioned at a particular belief state it will result in a distribution over the actions (distribution on the left)</p>
+      </div>
+  
+</div>
+
+<p><br /></p>
+
+<p>When the GMM joint distribution \(\pi_{\boldsymbol{\theta}}(\dot{x},\hat{x},U)\) is conditioned on the belief state \(F = [\hat{x},U]^{\mathrm{T}}\), it
+becomes a distribution over actions \(\pi_{\boldsymbol{\theta}}(\dot{x} \lvert \hat{x},U)\). One way of choosing a control velocity to apply
+is to take the expectation of this distribution \(\dot{x} = \mathbb{E}\{ \pi_{\boldsymbol{\theta}}(\dot{x} \lvert \hat{x},U) \}\). Taking
+the expectation of the conditional is known as Gaussian Mixture Regression (GMR). <a href="#gmr_vid">Video GMR</a> illustrated the behaviour of
+GMR on a pac-man agent positioned on top of the table.</p>
+
+<!-- _includes/image.html -->
+<div class="video-wrapper">
+  
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/aXx9mCuQqN8" frameborder="0" allowfullscreen=""></iframe>
+  
+
+  
+    <br />
+    <div class="boxed">
+        <p class="video-caption"> <b>Video: Gaussian Mixture Regression (GMR):</b> <a name="gmr_vid"></a> A pac-man agent is following the actions given by GMR. <b> Left: </b> In blue are the first and second standard
+                       deviations of the Gaussian functions of the GMM model. <b> Right: </b> Distribution over velocities, the heading of pac-man agent
+                       corresponds to the mean of this distribution.</p>
+    </div>
+  
+
+</div>
+
+<p><br /></p>
+
+<p>A similar GMR controller was applied for the reproduction of the behaviour demonstrated by the teachers
+for the block-table search task. <a href="#pomdp_gmm_vid">Video POMDP Policy</a> illustrates the behaviour the
+end-effector of a robot would follow.</p>
+
+<!-- VIDEO GMM MODEL SEARCH ON TABLE WITH PF -->
+
+<!-- _includes/image.html -->
+<div class="video-wrapper">
+  
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/72l0OEhQ7no" frameborder="0" allowfullscreen=""></iframe>
+  
+
+  
+    <br />
+    <div class="boxed">
+        <p class="video-caption"> <b>Video: POMDP GMM policy:</b> <a name="pomdp_gmm_vid"></a> GMM model of search strategies learned from human teachers. The <b>white ball</b> represents the
+                       true position of the end-effector whilst the <b>blue ball</b> represents the most likely state. The arrows represent
+                       different behaviours which can be selected. The cloud of points are part of a the <b> particle filter </b> representing the spatial location
+                       belief of both teacher and robot.</p>
+    </div>
+  
+
+</div>
+
+<p><br /></p>
+
+<h1 id="4-policy-in-action">4. Policy in action</h1>
+
+<h2 id="wam-searching">WAM searching</h2>
+
+<!-- _includes/image.html -->
+<div class="video-wrapper">
+  
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/7OwYEgB4IPg" frameborder="0" allowfullscreen=""></iframe>
+  
+
+  
+    <br />
+    <div class="boxed">
+        <p class="video-caption"> <b>Video: POMDP PbD:</b> <a name="pomdp_pbd_vid"></a> </p>
+    </div>
+  
+
+</div>
+
+<h3 id="kuka-searching">KUKA searching</h3>
+
+<!-- _includes/image.html -->
+<div class="video-wrapper">
+  
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/CjV6vfCSlM8" frameborder="0" allowfullscreen=""></iframe>
+  
+
+  
+    <br />
+    <div class="boxed">
+        <p class="video-caption"> <b>Video: KUKA search:</b> <a name="kuka1_vid"></a> </p>
+    </div>
+  
+
+</div>
+
+<p><br /></p>
+
+<!-- _includes/image.html -->
+<div class="video-wrapper">
+  
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/_lDDQ0dpAdE" frameborder="0" allowfullscreen=""></iframe>
+  
+
+  
+    <br />
+    <div class="boxed">
+        <p class="video-caption"> <b>Video: KUKA search:</b> <a name="kuka2_vid"></a> </p>
+    </div>
+  
+
+</div>
+
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2021-08-15T21:44:53+01:00">August 15, 2021</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=Learning+a+POMDP+policy+from+human+demonstrations%20https%3A%2F%2Fgpldecha.github.io%2Fprojects%2Fbelief_space_policy%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fgpldecha.github.io%2Fprojects%2Fbelief_space_policy%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fgpldecha.github.io%2Fprojects%2Fbelief_space_policy%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="#" class="pagination--pager disabled">Previous</a>
+    
+    
+      <a href="/projects/e-pca/" class="pagination--pager" title="E-PCA
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You may also enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/packaging-debian/" rel="permalink">Ubuntu/Debian packaging
+</a>
+      
+    </h2>
+    
+
+
+    <p class="archive__item-excerpt" itemprop="description">How to package a C++ program into a debian package
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/deploying-python-cpp/" rel="permalink">Deploying a Python/C++ package
+</a>
+      
+    </h2>
+    
+
+
+    <p class="archive__item-excerpt" itemprop="description">I have written a C++ library for non-parametric regression.
+Now C++ is great if you want to write efficient code, however it is less than ideal when it comes...</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2021 Guillaume de Chambrier. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>

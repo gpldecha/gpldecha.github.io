@@ -1,0 +1,76 @@
+I"l
+<h1 id="objective">Objective</h1>
+
+<h1 id="bayesian-state-space-filter">Bayesian State Space Filter</h1>
+
+<h1 id="measurement-likelihood-memory-filter">Measurement Likelihood Memory Filter</h1>
+
+<h2 id="1d-world-and-2-beliefs">1D world and 2 beliefs</h2>
+
+<!-- _includes/image.html -->
+<div class="video-wrapper">
+  
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/JE3O_KymrZI" frameborder="0" allowfullscreen=""></iframe>
+  
+
+  
+    <br />
+    <div class="boxed">
+        <p class="video-caption"> <b>Video: 1D world and two beliefs</b> <a name="mlmf_2D_2Bel_v"></a> MLMF</p>
+    </div>
+  
+
+</div>
+
+<h2 id="1d-world-and-3-beliefs">1D world and 3 beliefs</h2>
+
+<!-- _includes/image.html -->
+<div class="video-wrapper">
+  
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/uduMtfqxXD8" frameborder="0" allowfullscreen=""></iframe>
+  
+
+  
+    <br />
+    <div class="boxed">
+        <p class="video-caption"> <b>Video: 1D world and three beliefs</b> <a name="mlmf_2D_3Bel_v"></a> MLMF</p>
+    </div>
+  
+
+</div>
+
+<h2 id="space-and-time-complexity">Space and time complexity</h2>
+
+<h1 id="active-slam">Active-SLAM</h1>
+
+<!-- _includes/image.html -->
+<div class="video-wrapper">
+  
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/aocvUpBBT30" frameborder="0" allowfullscreen=""></iframe>
+  
+
+  
+    <br />
+    <div class="boxed">
+        <p class="video-caption"> <b>Video: Active-SLAM (2 Beliefs)</b> <a name="aslam_2Bel_v"></a> MLMF</p>
+    </div>
+  
+
+</div>
+
+<!-- _includes/image.html -->
+<div class="video-wrapper">
+  
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/NHgs2OAmqjE" frameborder="0" allowfullscreen=""></iframe>
+  
+
+  
+    <br />
+    <div class="boxed">
+        <p class="video-caption"> <b>Video: Active-SLAM (2 Beliefs)</b> <a name="aslam_2Bel_v"></a> MLMF</p>
+    </div>
+  
+
+</div>
+
+:EF

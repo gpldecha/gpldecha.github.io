@@ -1,0 +1,32 @@
+main:
+
+  - title: "Machine Learning"
+    url: /ml/
+
+  - title: "Computer Science"
+    url: /cs/
+
+  - title: "Robotics"
+    url: /robotics/
+
+  - title: "Notes"
+    url: /notes/
+
+  - title: "About"
+    url: /about/
+
+docs:
+  - title: Navigation
+    children:
+      - title: Home
+        url: /
+      - title: Machine Learning
+        url: /ml/
+      - title: Computer Science
+        url: /cs/
+      - title: Robotics
+        url: /robotics/
+      - title: Notes
+        url: /notes/
+      - title: About
+        url: /about/

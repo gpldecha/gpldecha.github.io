@@ -1,0 +1,23 @@
+I"H
+<!-- _includes/image.html -->
+<div class="image-wrapper">
+  
+    
+        <img src="https://gpldecha.github.io/images//projects/np_regression/lwr-2D.png" alt="" align="middle" />
+    
+  
+
+  
+</div>
+
+<ul>
+  <li>github repository: <a href="https://github.com/gpldecha/non-parametric-regression">non-parametric-regression</a></li>
+</ul>
+
+<p>This package provides a set of non-parametric methods for regression. The algorithmic implementation of the methods are in C++ whilst the interface
+is in Python. Non-parametric regression methods typically retains all the training data. The value of a new test point is a function of the neighboring points in the input space. As a result it is essential to use a fast space partition method, such as FLANN. Current implemented method are:</p>
+
+<ul>
+  <li>Locally Weighted Regression (LWR)</li>
+</ul>
+:EF

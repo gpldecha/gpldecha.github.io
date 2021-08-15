@@ -1,0 +1,415 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Weighted Gaussian Linear Regression - Guillaume’s draws</title>
+<meta name="description" content="An amazing website.">
+
+
+  <meta name="author" content="Guillaume de Chambrier">
+  
+  <meta property="article:author" content="Guillaume de Chambrier">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en">
+<meta property="og:site_name" content="Guillaume's draws">
+<meta property="og:title" content="Weighted Gaussian Linear Regression">
+<meta property="og:url" content="https://gpldecha.github.io/ml/gaussian_linear_regression/">
+
+
+  <meta property="og:description" content="An amazing website.">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2021-08-15T21:44:53+01:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://gpldecha.github.io/ml/gaussian_linear_regression/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Guillaume de Chambrier",
+      "url": "https://gpldecha.github.io/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Guillaume's draws Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Guillaume's draws
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/ml/">Machine Learning</a>
+            </li><li class="masthead__menu-item">
+              <a href="/cs/">Computer Science</a>
+            </li><li class="masthead__menu-item">
+              <a href="/robotics/">Robotics</a>
+            </li><li class="masthead__menu-item">
+              <a href="/notes/">Notes</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+  
+
+
+
+
+
+
+
+<div class="page__hero--overlay"
+  style="background-color: #333; background-image: url('');"
+>
+  
+    <div class="wrapper">
+      <h1 id="page-title" class="page__title" itemprop="headline">
+        
+          Weighted Gaussian Linear Regression
+
+        
+      </h1>
+      
+        <p class="page__lead">
+</p>
+      
+      
+
+
+      
+      
+    </div>
+  
+  
+</div>
+
+
+
+
+
+<div id="main" role="main">
+  
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Weighted Gaussian Linear Regression">
+    <meta itemprop="description" content="">
+    <meta itemprop="datePublished" content="2021-08-15T21:44:53+01:00">
+    
+
+    <div class="page__inner-wrap">
+      
+
+      <section class="page__content" itemprop="text">
+        
+        <!-- KaTeX -->
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+
+<h2 id="resources">Resources</h2>
+
+<p><a href="http://www.seas.ucla.edu/~vandenbe/133A/lectures/ls.pdf">Vandenberghe Lectures</a></p>
+
+<h2 id="notation">Notation</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>variable</th>
+      <th style="text-align: center">dimension</th>
+      <th>name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>\(\mathbf{y}_i\)</td>
+      <td style="text-align: center">\(\mathbb{R}^{(M \times 1)}\)</td>
+      <td>i<em>th</em> predictor</td>
+    </tr>
+    <tr>
+      <td>\(\mathbf{x}_i\)</td>
+      <td style="text-align: center">\(\mathbb{R}^{(P \times 1)}\)</td>
+      <td>i<em>th</em> state</td>
+    </tr>
+    <tr>
+      <td>\(\alpha_i\)</td>
+      <td style="text-align: center">\(\mathbb{R}^{(1 \times 1)}\)</td>
+      <td>i<em>th</em> sample weight</td>
+    </tr>
+    <tr>
+      <td>\(\mathbf{w}\)</td>
+      <td style="text-align: center">\(\mathbb{R}^{(P \times M)}\)</td>
+      <td>weights</td>
+    </tr>
+    <tr>
+      <td>\(\mathbf{Y}\)</td>
+      <td style="text-align: center">\(\mathbb{R}^{(N \times M)}\)</td>
+      <td>all predictors</td>
+    </tr>
+    <tr>
+      <td>\(\mathbf{X}\)</td>
+      <td style="text-align: center">\(\mathbb{R}^{(N \times P)}\)</td>
+      <td>all states</td>
+    </tr>
+    <tr>
+      <td>\(\boldsymbol{\alpha}\)</td>
+      <td style="text-align: center">\(\mathbb{R}^{(N \times N)}\)</td>
+      <td>identity matrix with columns entries being data point weights</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="weighted-gaussian-linear-regression">Weighted Gaussian Linear regression</h2>
+
+<p>The log-likelihood of dataset with \(N\) weighted samples  \(\mathcal{D} = \{\mathbf{x}_i, \mathbf{y}_i, \alpha_i \}_{i=1:N}\) which is modeled by a linear gaussian function is given by:</p>
+
+<center>
+$$L(\mathcal{D};\boldsymbol{\theta}) \triangleq \sum_{i=1}^N \log p(\mathbf{y}_i|\mathbf{x}_i;\boldsymbol{\theta}) \, \alpha_i$$
+</center>
+
+<p>where \(p(\cdot)\) is a Gaussian probability density function:</p>
+
+\[p(\mathbf{y}_i|\mathbf{x}_i;\boldsymbol{\theta}) = \frac{1}{(2\pi)^{D/2}|\boldsymbol{\Sigma}|^{1/2}} \exp\Bigg(-\frac{1}{2} (\mathbf{y}_i - \mathbf{w}^{T}\mathbf{x}_i)^{T}\boldsymbol{\Sigma}^{-1}(\mathbf{y}_i - \mathbf{w}^{T}\mathbf{x}_i) \Bigg)\]
+
+<p>with parameters \(\boldsymbol{\theta} \triangleq \{\mathbf{w}, \boldsymbol{\Sigma}\}\).</p>
+
+<h3 id="expansion-of-the-log-likelihood">Expansion of the log-likelihood</h3>
+
+<p>First without considering the weights \(\alpha\) we simplify \(L(\mathcal{D};\boldsymbol{\theta})\)</p>
+
+\[\begin{align}
+&amp;=\sum_{i=1}^N \log 1 - \log( (2\pi)^{D/2}|\boldsymbol{\Sigma}|^{1/2}) - \frac{1}{2} (\mathbf{y}_i - \mathbf{w}^{T}\mathbf{x}_i)^{T}\boldsymbol{\Sigma}^{-1}(\mathbf{y}_i - \mathbf{w}^{T}\mathbf{x}_i) \\
+&amp;=\sum_{i=1}^N - \frac{1}{2}\log((2\pi)^{D}|\boldsymbol{\Sigma}|) - \frac{1}{2} (\mathbf{y}_i - \mathbf{w}^{T}\mathbf{x}_i)^{T}\boldsymbol{\Sigma}^{-1}(\mathbf{y}_i - \mathbf{w}^{T}\mathbf{x}_i) \\
+&amp;=\sum_{i=1}^N - \frac{1}{2}\log((2\pi)^{D}) - \frac{1}{2}\log |\boldsymbol{\Sigma}| - \frac{1}{2} (\mathbf{y}_i - \mathbf{w}^{T}\mathbf{x}_i)^{T}\boldsymbol{\Sigma}^{-1}(\mathbf{y}_i - \mathbf{w}^{T}\mathbf{x}_i)\\
+&amp;= \sum_{i=1}^N - \frac{D}{2}\log(2\pi) - \frac{1}{2}\log |\boldsymbol{\Sigma}| - \frac{1}{2} (\mathbf{y}_i - \mathbf{w}^{T}\mathbf{x}_i)^{T}\boldsymbol{\Sigma}^{-1}(\mathbf{y}_i - \mathbf{w}^{T}\mathbf{x}_i) \\
+&amp;= -\frac{N\,D}{2}\log(2\pi) - \frac{N}{2}\log |\boldsymbol{\Sigma}| - \frac{1}{2} \sum_{i=1}^N (\mathbf{y}_i - \mathbf{w}^{T}\mathbf{x}_i)^{T}\boldsymbol{\Sigma}^{-1}(\mathbf{y}_i - \mathbf{w}^{T}\mathbf{x}_i)
+\end{align}\]
+
+<p>Simplifying with the weights:</p>
+
+\[\begin{align}
+&amp;= \sum_{i=1}^N - \frac{D}{2}\log(2\pi)\alpha_i - \frac{1}{2}\log |\boldsymbol{\Sigma}|\alpha_i - \frac{1}{2} (\mathbf{y}_i - \mathbf{w}^{T}\mathbf{x}_i)^{T}\boldsymbol{\Sigma}^{-1}(\mathbf{y}_i - \mathbf{w}^{T}\mathbf{x}_i) \alpha_i\\
+&amp;= - \frac{D}{2}\log(2\pi)\left(\sum_{i=1}^N \alpha_i\right) - \frac{1}{2}\log |\boldsymbol{\Sigma}|\left(\sum_{i=1}^N \alpha_i\right) - \frac{1}{2} \sum_{i=1}^N (\mathbf{y}_i - \mathbf{w}^{T}\mathbf{x}_i)^{T}\boldsymbol{\Sigma}^{-1}(\mathbf{y}_i - \mathbf{w}^{T}\mathbf{x}_i) \alpha_i \end{align}\]
+
+<h2 id="1d-maximum-likelihood">1D Maximum likelihood</h2>
+
+<p>Given that we are in the 1D case \(\boldsymbol{\Sigma} = \sigma\), \(D=1\)</p>
+
+\[\begin{align}
+&amp;L(\mathcal{D};\boldsymbol{\theta}) = \\
+&amp;-\frac{1}{2}\log(2\pi)\left(\sum_{i=1}^N \alpha_i\right) - \frac{1}{2}\log \sigma^2 \left(\sum_{i=1}^N \alpha_i\right) - \frac{1}{2\, \sigma^2} \sum_{i=1}^N (\mathbf{y}_i - \mathbf{w}^{T}\mathbf{x}_i)^{T}\boldsymbol{\Sigma}^{-1}(\mathbf{y}_i - \mathbf{w}^{T}\mathbf{x}_i) \alpha_i\\
+ &amp;= - \frac{1}{2}\log(2\pi \sigma^2)\left(\sum_{i=1}^N \alpha_i\right) - \frac{1}{2\, \sigma^2} \sum_{i=1}^N (y - \mathbf{w}^{T}\mathbf{x}_i)^2\alpha_i
+ \end{align}\]
+
+<p>Set the derivaties with respect to the parameters to zero, \(\frac{\partial L}{\partial \mathbf{w}} = 0\) and \(\frac{\partial L}{\partial \sigma^2} = 0\),  and solve for \(\mathbf{w}\) and \(\sigma^2\):</p>
+
+<h3 id="maximise-weights">maximise weights</h3>
+
+\[\frac{\partial L}{\partial \mathbf{w}} = \frac{1}{2\, \sigma^2} \sum_{i=1}^N \frac{\partial}{\partial \mathbf{w}} (y_i - \mathbf{w}^{T}\mathbf{x}_i)^2\alpha_i\]
+
+\[\begin{align}
+ 0 &amp;= \frac{1}{2\, \sigma^2} \sum_{i=1}^N - 2\, (\mathbf{Y}_i - \mathbf{w}^{T}\mathbf{x}_i)\, \mathbf{x}_i\, \alpha_i\\
+ 0 &amp;= \sum_{i=1}^N - \, (\mathbf{y}_i - \mathbf{w}^{T}\mathbf{x}_i)\, \mathbf{x}_i\, \alpha_i\\
+ 0 &amp;= -\sum_{i=1}^N  \mathbf{y}_i\, \mathbf{x}_i\, \alpha_i +  \sum_{i=1}^N \mathbf{w}^{T}\mathbf{x}_i\, \mathbf{x}_i\, \alpha_i \\
+ 0 &amp;= -\mathbf{X}^{T}\boldsymbol{\alpha}\mathbf{Y} +  \mathbf{w} \mathbf{X}^{T}\boldsymbol{\alpha}\mathbf{X}\\
+ \mathbf{w} \mathbf{X}^{T}\boldsymbol{\alpha}\mathbf{X} &amp;= \mathbf{X}^{T}\boldsymbol{\alpha}\mathbf{Y}\\
+ \mathbf{w} &amp;= (\mathbf{X}^{T}\boldsymbol{\alpha}\mathbf{X})^{-1}\mathbf{X}^{T}\boldsymbol{\alpha}\mathbf{Y}
+ \end{align}\]
+
+<h3 id="maximise-variance">maximise variance</h3>
+
+\[\begin{align}
+\frac{\partial L}{\partial \sigma^2} &amp;= \frac{\partial \left[-\frac{1}{2}\log(2\pi)\left(\sum_{i=1}^N \alpha_i\right) -\frac{1}{2}\log(\sigma^2)\left(\sum_{i=1}^N \alpha_i\right) - \frac{1}{2\, \sigma^2} \sum_{i=1}^N (\mathbf{y}_i - \mathbf{w}^{T}\mathbf{x}_i)^2\alpha_i\right]}{\partial \sigma^2}\\
+&amp;= -\frac{1}{2 \sigma^2}\left(\sum_{i=1}^N \alpha_i\right) + \frac{1}{2\, \sigma^4} \sum_{i=1}^N (\mathbf{y}_i  - \mathbf{w}^{T}\mathbf{x}_i)^2\alpha_i \\
+0 &amp;= -\left(\sum_{i=1}^N \alpha_i\right) + \frac{1}{\sigma^2} \sum_{i=1}^N (\mathbf{y}_i  - \mathbf{w}^{T}\mathbf{x}_i)^2\alpha_i\\
+\sigma^2 \left(\sum_{i=1}^N \alpha_i\right) &amp;= \sum_{i=1}^N (\mathbf{y}_i  - \mathbf{w}^{T}\mathbf{x}_i)^2\alpha_i \\
+\sigma^2 &amp;= \frac{1}{\left(\sum_{i=1}^N \alpha_i\right)} \sum_{i=1}^N (\mathbf{y}_i  - \mathbf{w}^{T}\mathbf{x}_i)^2\alpha_i
+\end{align}\]
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2021-08-15T21:44:53+01:00">August 15, 2021</time></p>
+
+
+      </footer>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="#" class="pagination--pager disabled">Previous</a>
+    
+    
+      <a href="/ml/policy_gradient/" class="pagination--pager" title="Policy gradient notes
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2021 Guillaume de Chambrier. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>

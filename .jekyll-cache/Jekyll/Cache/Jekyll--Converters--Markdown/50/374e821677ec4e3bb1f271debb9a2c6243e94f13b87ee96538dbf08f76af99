@@ -1,0 +1,83 @@
+I":<p><strong>How to package a C++ program into a debian package</strong></p>
+
+<p>First do all all the steps in:</p>
+
+<ol>
+  <li><a href="http://packaging.ubuntu.com/html/getting-set-up.html">Getting setup</a></li>
+  <li><a href="http://packaging.ubuntu.com/html/packaging-new-software.html">Packaging New Software</a></li>
+</ol>
+
+<p>I will be doing a walk through of the example given in the  <a href="http://packaging.ubuntu.com/html/packaging-new-software.html">Packaging New Software</a>
+in which you will be deploying a simple hello world program.</p>
+
+<p>I first created a directory hello_package, in my ubuntu package deployment workspace,
+and downloaded the hello world program as outlined in <a href="http://packaging.ubuntu.com/html/packaging-new-software.html">Packaging New Software</a>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">pwd</span>
+<span class="nv">$ </span>/home/username/ubuntu_packaging/hello_package
+<span class="nv">$ </span><span class="nb">ls</span>
+<span class="nv">$ </span>hello-2.7  hello-2.7.tar.gz
+</code></pre></div></div>
+<p>After building hello-2.7 and installing it, I run bzr dh-make</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>bzr dh-make hello 2.7 hello-2.7.tar.gz
+</code></pre></div></div>
+
+<p>which takes the following options:</p>
+
+<p>bzr dh-make PACKAGE_NAME VERSION TARBALL (see <a href="http://doc.bazaar.canonical.com/plugins/en/builddeb-plugin.html">builddeb-plugin</a>)</p>
+
+<p>and creates an additional directory (hello) and new tarball (hello_2.7.orig.tar.gz):</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">pwd</span>
+<span class="nv">$ </span>/home/username/ubuntu_packaging/hello_package
+<span class="nv">$ </span><span class="nb">ls</span>
+<span class="nv">$ </span>hello  hello-2.7  hello_2.7.orig.tar.gz  hello-2.7.tar.gz
+</code></pre></div></div>
+
+<p>After laboriously changing all files in hello/debian as prescribed and building the
+debian package more directories are created:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">pwd</span>
+<span class="nv">$ </span>/home/username/ubuntu_packaging/hello_package
+<span class="nv">$ </span><span class="nb">ls</span>
+<span class="nv">$ </span>build-area  hello  hello-2.7  hello_2.7-0ubuntu1_amd64.changes  hello_2.7-0ubuntu1_amd64.deb  hello_2.7-0ubuntu1.debian.tar.gz  hello_2.7-0ubuntu1.dsc  hello_2.7.orig.tar.gz  hello-2.7.tar.gz
+</code></pre></div></div>
+<ul>
+  <li>hello_2.7-0ubuntu1_amd64.changes</li>
+  <li>hello_2.7-0ubuntu1_amd64.deb</li>
+  <li>hello_2.7-0ubuntu1.debian.tar.gz</li>
+  <li>hello_2.7-0ubuntu1.dsc</li>
+</ul>
+
+<p>On launchpad you have to create a new PPA for this project and upload your package to it, see <a href="https://help.launchpad.net/Packaging/PPA/Uploading">PPA-Uploading</a>.
+Once this is down you are nearly ready to sudo apt-get install this package. Before this you have to add your ppa to your source packages. I
+ran the following command:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>add-apt-repository ppa:gpldecha/ppa-hello
+ A simple hello program which displays a greeting.
+ More info: https://launchpad.net/~gpldecha/+archive/ubuntu/ppa-hello
+Press <span class="o">[</span>ENTER] to <span class="k">continue </span>or ctrl-c to cancel adding it
+
+Error: signing key fingerprint does not exist
+</code></pre></div></div>
+<p>However it did not work, I got: <strong>Error: signing key fingerprint does not exist</strong>.
+This is because you frist have to added the public key of the PPA to your package sources, see <a href="http://ia800203.us.archive.org/23/items/LaunchpadAddingAPpasKeyToYourUbuntuSystem/launchpad-adding-key-for-signed-ppa.ogv">Added key for signed PPA</a></p>
+
+<h2 id="resources">Resources</h2>
+
+<ul>
+  <li>
+    <p><a href="http://packaging.ubuntu.com/html/getting-set-up.html">Getting setup</a></p>
+  </li>
+  <li>
+    <p><a href="http://packaging.ubuntu.com/html/packaging-new-software.html">Packaging New Software</a></p>
+  </li>
+  <li>
+    <p><a href="http://packaging.ubuntu.com/html/debian-dir-overview.html">Debian dir overview</a></p>
+  </li>
+  <li>
+    <p><a href="https://help.launchpad.net/Packaging/PPA?action=show&amp;redirect=PPA#Adding%20a%20PPA%20to%20your%20Ubuntu%20repositories">Packaging PPA</a></p>
+  </li>
+</ul>
+:ET

@@ -1,0 +1,559 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>ArduPilot ecosystem - Guillaume’s draws</title>
+<meta name="description" content="An amazing website.">
+
+
+  <meta name="author" content="Guillaume de Chambrier">
+  
+  <meta property="article:author" content="Guillaume de Chambrier">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en">
+<meta property="og:site_name" content="Guillaume's draws">
+<meta property="og:title" content="ArduPilot ecosystem">
+<meta property="og:url" content="https://gpldecha.github.io/robotics/ardupilot">
+
+
+  <meta property="og:description" content="An amazing website.">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2021-08-15T21:44:53+01:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://gpldecha.github.io/robotics/ardupilot">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Guillaume de Chambrier",
+      "url": "https://gpldecha.github.io/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Guillaume's draws Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Guillaume's draws
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/ml/">Machine Learning</a>
+            </li><li class="masthead__menu-item">
+              <a href="/cs/">Computer Science</a>
+            </li><li class="masthead__menu-item">
+              <a href="/robotics/">Robotics</a>
+            </li><li class="masthead__menu-item">
+              <a href="/notes/">Notes</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+  
+
+
+
+
+
+
+
+<div class="page__hero--overlay"
+  style="background-color: #333; background-image: url('');"
+>
+  
+    <div class="wrapper">
+      <h1 id="page-title" class="page__title" itemprop="headline">
+        
+          ArduPilot ecosystem
+
+        
+      </h1>
+      
+        <p class="page__lead">
+</p>
+      
+      
+
+
+      
+      
+    </div>
+  
+  
+</div>
+
+
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/images/bio-photo-2.jpg" alt="Guillaume de Chambrier" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">Guillaume de Chambrier</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">London</span>
+        </li>
+      
+
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            <li><a href="https://github.com/gpldecha" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:chambrierg@gmail.com">
+            <meta itemprop="email" content="chambrierg@gmail.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="ArduPilot ecosystem">
+    <meta itemprop="description" content="">
+    <meta itemprop="datePublished" content="2021-08-15T21:44:53+01:00">
+    
+
+    <div class="page__inner-wrap">
+      
+
+      <section class="page__content" itemprop="text">
+        
+        <h1 id="dronekit"><a href="https://github.com/dronekit/dronekit-python">DroneKit</a></h1>
+
+<p>DroneKit-Python allows developers to create apps that run on an onboard companion computer and communicate with the ArduPilot flight controller using a low-latency link.</p>
+
+<p>The API communicates with vehicles over MAVLink. It provides programmatic access to a connected vehicle’s telemetry, state and parameter information, and enables both mission management and direct control over vehicle movement and operations.</p>
+
+<p>Drone-kit is a python API corresponding to the functionality of mavproxy. This means you can arm, change flight modes and send waypoints.
+The constraint being that all of this happens at a low frequency.</p>
+
+<p>If you want to implement an an autonomous vehicle with your very
+own AI you would choose the <a href="http://python.dronekit.io/guide/copter/guided_mode.html#guided-mode-copter-control-movement">GUIDED</a> mode. There are <a href="http://python.dronekit.io/guide/copter/guided_mode.html#guided-mode-copter-velocity-control">two ways to
+control the vehicle</a></p>
+
+<ol>
+  <li>
+    <p>Position. In this mode positions in relative/global frame are
+sent to vehicle (over mavlink) in the form of goto commands.</p>
+  </li>
+  <li>
+    <p>Velocity
+The function send_ned_velocity() below generates a SET_POSITION_TARGET_LOCAL_NED MAVLink message which is used to directly specify the speed components of the vehicle in the MAV_FRAME_LOCAL_NED frame (relative to home location). The message is re-sent every second for the specified duration.</p>
+  </li>
+</ol>
+
+<h1 id="rc-overid">RC overid</h1>
+
+<p><a href="http://docs.erlerobotics.com/erle_robots/erle_rover/examples/teleoperation_erle_rover">teleoperation_erle_rover</a></p>
+
+<h1 id="px4-pro"><a href="https://github.com/PX4/Firmware">PX4 pro</a></h1>
+
+<p><a href="http://px4.io/">PX4 Pro</a></p>
+
+<p>Build an Agent on your offboard compute which communicate with the PX4 autopilot client. The client and agent both run as daemon process.</p>
+
+<p><a href="https://www.gitbook.com/book/px4/px4-user-guide/details">PX4-user-guide</a>
+<a href="https://dev.px4.io/en/">PX4-dev-guide</a></p>
+
+<ol>
+  <li>
+    <p><a href="https://github.com/PX4/Firmware/tree/master/src">PX4-Firmware</a>
+This repository holds the PX4 Pro flight control solution for drones, with the main applications located in the src/modules directory. It also contains the PX4 Drone Middleware Platform, which provides drivers and middleware to run drones.</p>
+  </li>
+  <li>
+    <p><a href="https://dev.px4.io/en/concept/flight_stack.html">PX4-flight stack</a></p>
+  </li>
+  <li>
+    <p><a href="https://dev.px4.io/en/concept/middleware.html">PX4-middleware</a></p>
+  </li>
+</ol>
+
+<ul>
+  <li>multiple applications known as Apps are runnig on the Pixhawk2:</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~/src/Firmware/Tools<span class="nv">$ </span>./mavlink_shell.py /dev/ttyACM0
+Connecting to MAVLINK...
+
+NuttShell <span class="o">(</span>NSH<span class="o">)</span>
+nsh&gt; <span class="nb">help</span>
+...
+Builtin Apps:
+  adc
+  tone_alarm
+  fmu
+  px4io
+  rgbled
+  mpu6000
+  mpu9250
+  lsm303d
+  l3gd20
+  hmc5883
+  ms5611
+  sf0x
+  ll40ls
+  trone
+  gps
+  pwm_out_sim
+  ets_airspeed
+  ms4525_airspeed
+  ms5525_airspeed
+  sdp3x_airspeed
+  frsky_telemetry
+  sensors
+  px4flow
+  vmount
+  pwm_input
+  camera_trigger
+  bst
+  lis3mdl
+  ulanding_radar
+  bl_update
+  config
+  hardfault_log
+  mixer
+  mtd
+  nshterm
+  param
+  perf
+  pwm
+  reboot
+  top
+  ver
+  commander
+  send_event
+  load_mon
+  navigator
+  mavlink
+  gpio_led
+  land_detector
+  camera_feedback
+  ekf2
+  fw_att_control
+  fw_pos_control_l1
+  gnd_att_control
+  gnd_pos_control
+  mc_att_control
+  mc_pos_control
+  vtol_att_control
+  logger
+  uorb
+  dataman
+  px4_simple_app
+  serdis
+  sercon
+
+</code></pre></div></div>
+
+<p>Individual message channels between Applications (Apps) are called topics in PX4.</p>
+
+<p><a href="https://dev.px4.io/en/middleware/modules_main.html">modules</a></p>
+
+<h1 id="ardupilot"><a href="https://github.com/ArduPilot/ardupilot">ArduPilot</a></h1>
+
+<p><a href="http://ardupilot.org/dev/docs/learning-the-ardupilot-codebase.html">Learning the ArduPilot Codebase</a></p>
+
+<h1 id="mavros"><a href="https://dev.px4.io/en/ros/mavros_installation.html">Mavros</a></h1>
+
+<h1 id="what-is-the-difference-between-ardupilot-and-px4">What is the difference between ArduPilot and PX4</h1>
+
+<p>ArduPilot uses</p>
+
+<h1 id="resources">Resources</h1>
+
+<p><a href="https://404warehouse.net/2016/07/11/px4-software-in-the-loopsitl-simulation-on-gazebo/">px4-gazebo</a></p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2021-08-15T21:44:53+01:00">August 15, 2021</time></p>
+
+
+      </footer>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="#" class="pagination--pager disabled">Previous</a>
+    
+    
+      <a href="/robotics/batteries" class="pagination--pager" title="Batteries
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2021 Guillaume de Chambrier. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>

@@ -1,0 +1,471 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Ubuntu/Debian packaging - Guillaume’s draws</title>
+<meta name="description" content="How to package a C++ program into a debian package">
+
+
+  <meta name="author" content="Guillaume de Chambrier">
+  
+  <meta property="article:author" content="Guillaume de Chambrier">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en">
+<meta property="og:site_name" content="Guillaume's draws">
+<meta property="og:title" content="Ubuntu/Debian packaging">
+<meta property="og:url" content="https://gpldecha.github.io/packaging-debian/">
+
+
+  <meta property="og:description" content="How to package a C++ program into a debian package">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2016-12-06T00:00:00+00:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://gpldecha.github.io/packaging-debian/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Guillaume de Chambrier",
+      "url": "https://gpldecha.github.io/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Guillaume's draws Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Guillaume's draws
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/ml/">Machine Learning</a>
+            </li><li class="masthead__menu-item">
+              <a href="/cs/">Computer Science</a>
+            </li><li class="masthead__menu-item">
+              <a href="/robotics/">Robotics</a>
+            </li><li class="masthead__menu-item">
+              <a href="/notes/">Notes</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/images/bio-photo-2.jpg" alt="Guillaume de Chambrier" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">Guillaume de Chambrier</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">London</span>
+        </li>
+      
+
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            <li><a href="https://github.com/gpldecha" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:chambrierg@gmail.com">
+            <meta itemprop="email" content="chambrierg@gmail.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Ubuntu/Debian packaging">
+    <meta itemprop="description" content="How to package a C++ program into a debian package">
+    <meta itemprop="datePublished" content="2016-12-06T00:00:00+00:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Ubuntu/Debian packaging
+</h1>
+          
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+        <p><strong>How to package a C++ program into a debian package</strong></p>
+
+<p>First do all all the steps in:</p>
+
+<ol>
+  <li><a href="http://packaging.ubuntu.com/html/getting-set-up.html">Getting setup</a></li>
+  <li><a href="http://packaging.ubuntu.com/html/packaging-new-software.html">Packaging New Software</a></li>
+</ol>
+
+<p>I will be doing a walk through of the example given in the  <a href="http://packaging.ubuntu.com/html/packaging-new-software.html">Packaging New Software</a>
+in which you will be deploying a simple hello world program.</p>
+
+<p>I first created a directory hello_package, in my ubuntu package deployment workspace,
+and downloaded the hello world program as outlined in <a href="http://packaging.ubuntu.com/html/packaging-new-software.html">Packaging New Software</a>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">pwd</span>
+<span class="nv">$ </span>/home/username/ubuntu_packaging/hello_package
+<span class="nv">$ </span><span class="nb">ls</span>
+<span class="nv">$ </span>hello-2.7  hello-2.7.tar.gz
+</code></pre></div></div>
+<p>After building hello-2.7 and installing it, I run bzr dh-make</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>bzr dh-make hello 2.7 hello-2.7.tar.gz
+</code></pre></div></div>
+
+<p>which takes the following options:</p>
+
+<p>bzr dh-make PACKAGE_NAME VERSION TARBALL (see <a href="http://doc.bazaar.canonical.com/plugins/en/builddeb-plugin.html">builddeb-plugin</a>)</p>
+
+<p>and creates an additional directory (hello) and new tarball (hello_2.7.orig.tar.gz):</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">pwd</span>
+<span class="nv">$ </span>/home/username/ubuntu_packaging/hello_package
+<span class="nv">$ </span><span class="nb">ls</span>
+<span class="nv">$ </span>hello  hello-2.7  hello_2.7.orig.tar.gz  hello-2.7.tar.gz
+</code></pre></div></div>
+
+<p>After laboriously changing all files in hello/debian as prescribed and building the
+debian package more directories are created:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">pwd</span>
+<span class="nv">$ </span>/home/username/ubuntu_packaging/hello_package
+<span class="nv">$ </span><span class="nb">ls</span>
+<span class="nv">$ </span>build-area  hello  hello-2.7  hello_2.7-0ubuntu1_amd64.changes  hello_2.7-0ubuntu1_amd64.deb  hello_2.7-0ubuntu1.debian.tar.gz  hello_2.7-0ubuntu1.dsc  hello_2.7.orig.tar.gz  hello-2.7.tar.gz
+</code></pre></div></div>
+<ul>
+  <li>hello_2.7-0ubuntu1_amd64.changes</li>
+  <li>hello_2.7-0ubuntu1_amd64.deb</li>
+  <li>hello_2.7-0ubuntu1.debian.tar.gz</li>
+  <li>hello_2.7-0ubuntu1.dsc</li>
+</ul>
+
+<p>On launchpad you have to create a new PPA for this project and upload your package to it, see <a href="https://help.launchpad.net/Packaging/PPA/Uploading">PPA-Uploading</a>.
+Once this is down you are nearly ready to sudo apt-get install this package. Before this you have to add your ppa to your source packages. I
+ran the following command:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>add-apt-repository ppa:gpldecha/ppa-hello
+ A simple hello program which displays a greeting.
+ More info: https://launchpad.net/~gpldecha/+archive/ubuntu/ppa-hello
+Press <span class="o">[</span>ENTER] to <span class="k">continue </span>or ctrl-c to cancel adding it
+
+Error: signing key fingerprint does not exist
+</code></pre></div></div>
+<p>However it did not work, I got: <strong>Error: signing key fingerprint does not exist</strong>.
+This is because you frist have to added the public key of the PPA to your package sources, see <a href="http://ia800203.us.archive.org/23/items/LaunchpadAddingAPpasKeyToYourUbuntuSystem/launchpad-adding-key-for-signed-ppa.ogv">Added key for signed PPA</a></p>
+
+<h2 id="resources">Resources</h2>
+
+<ul>
+  <li>
+    <p><a href="http://packaging.ubuntu.com/html/getting-set-up.html">Getting setup</a></p>
+  </li>
+  <li>
+    <p><a href="http://packaging.ubuntu.com/html/packaging-new-software.html">Packaging New Software</a></p>
+  </li>
+  <li>
+    <p><a href="http://packaging.ubuntu.com/html/debian-dir-overview.html">Debian dir overview</a></p>
+  </li>
+  <li>
+    <p><a href="https://help.launchpad.net/Packaging/PPA?action=show&amp;redirect=PPA#Adding%20a%20PPA%20to%20your%20Ubuntu%20repositories">Packaging PPA</a></p>
+  </li>
+</ul>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2016-12-06T00:00:00+00:00">December 6, 2016</time></p>
+
+
+      </footer>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/deploying-python-cpp/" class="pagination--pager" title="Deploying a Python/C++ package
+">Previous</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2021 Guillaume de Chambrier. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>

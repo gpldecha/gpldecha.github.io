@@ -1,0 +1,23 @@
+I"ç
+<!-- _includes/image.html -->
+<div class="image-wrapper">
+  
+    
+        <img src="https://gpldecha.github.io/images//projects/kuka_lwr_ros/concept.png" alt="" align="middle" />
+    
+  
+
+  
+</div>
+
+<p><br />
+A ROS package to control the KUKA LWR 4,  both in simulation and for the physical robot.
+<a href="http://wiki.ros.org/rviz">Rviz</a> is used to visualize the sensor data coming from
+either the <a href="http://gazebosim.org/">Gazebo</a> simulator or the FRI API interfacing the
+KUKA control box.</p>
+
+<ul>
+  <li>github package <a href="https://github.com/epfl-lasa/kuka-lwr-ros">kuka-lwr-ros</a></li>
+  <li>examples using this package: <a href="https://github.com/epfl-lasa/kuka-lwr-ros-examples">kuka-lwr-ros-examples</a></li>
+</ul>
+:EF

@@ -1,0 +1,27 @@
+I"9
+<!-- _includes/image.html -->
+<div class="image-wrapper">
+  
+    
+        <img src="https://gpldecha.github.io/images//projects/ml_toolbox/ada-kernel.png" alt="" align="middle" />
+    
+  
+
+  
+</div>
+
+<p>During my time as Ph.D at the LASA group in EPFL I developed a <a href="https://github.com/epfl-lasa/ML_toolbox">Machine Learning toolbox</a>
+for an advanced machine learning class with my fellow teaching assistant colleges. My contributions included the
+following components:</p>
+
+<ul>
+  <li>Toolbox structure</li>
+  <li>Bayesian linear regression</li>
+  <li>Gaussian Process regression</li>
+  <li>Exercises on Kernel-PCA methods for cluster discovery</li>
+  <li>Reinforcement Learning</li>
+</ul>
+
+<p><img src="https://gpldecha.github.io/images//projects/ml_toolbox/PE.gif" alt="Policy Iteration" align="middle" /></p>
+
+:EF

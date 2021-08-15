@@ -1,0 +1,48 @@
+I"S<p>A developed a Qt-GUI and a set Machine Learning classifiers for the Syntouch BioTac sensor, a synthetic finger which
+provide pressure and temperature information at 19 different locations across the finger’s skin. Figure <a href="#syntouch_data">Data collection</a>
+illustrates the data gathering step for four different classes (<i>Corner, Edge, Surface, Air </i>). Once a sufficient
+amount of data was gathered for each class I proceeded to learn different classifiers. I found that
+Support Vector Machine (SVM) was the most robust classifier when compared with other classification approaches such as Gaussian Mixture Model.</p>
+
+<!-- BioTac Image -->
+
+<!-- _includes/image.html -->
+<div class="image-wrapper">
+  
+  <div class="boxed">
+  
+    
+        <img src="https://gpldecha.github.io/images//projects/tactile_classifier/collecting_data_sensor.png" alt="Data collection:" align="middle" />
+    
+  
+  </div>
+  
+
+  
+  <br />
+    <div class="boxed">
+        <p class="image-caption"> <b>Figure: Data collection:</b> <a name=""></a> Gathering training data for the different classes</p>
+      </div>
+  
+</div>
+
+<p><br />
+Figure <a href="#syntouch_v">Syntouch BioTac classifier</a> illustratese the SVM classifier in action.</p>
+
+<!-- _includes/image.html -->
+<div class="video-wrapper">
+  
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/h_Io_Tts3UI" frameborder="0" allowfullscreen=""></iframe>
+  
+
+  
+    <br />
+    <div class="boxed">
+        <p class="video-caption"> <b>Video: Syntouch BioTac classifier</b> <a name="syntouch_v"></a> Syntouch provides a 19 dimensional temporal signal. A classifier for <i>corner</i>, <i> edge </i>, <i> surface </i> and
+                                        <i> air </i> was learned. The blue bars represent the probability the currently sensed data to be part of a class.</p>
+    </div>
+  
+
+</div>
+
+:ET

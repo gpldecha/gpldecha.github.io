@@ -1,0 +1,115 @@
+I"•<p>I have written a C++ library for <a href="https://github.com/gpldecha/non-parametric-regression">non-parametric regression</a>.
+Now C++ is great if you want to write efficient code, however it is less than ideal when it comes to plotting
+and visualising data. For this either Python or Matlab are perfect candidates.</p>
+
+<p>So I have written a Python wrapper to my C++ library with Boost.Python and I want to
+deploy it for the world to use.</p>
+
+<p>Here are some use cases which I want my deployed package to fulfill:</p>
+
+<ul>
+  <li>A user can either use the c++ interface or the python interface.</li>
+  <li>It should be easy to install (of course):</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span> pip <span class="nb">install </span>npregression
+</code></pre></div></div>
+
+<p>or</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">sudo </span>apt-get <span class="nb">install </span>npregression
+</code></pre></div></div>
+
+<h2 id="approach">Approach</h2>
+
+<p>Since the C++ library should be completely independent of the wrapper it should
+be able to be installed/deployed without the wrapper.</p>
+
+<p>If the wrapper is installed via pip it should first install the C++ library which
+is a dependency and then proceed to install the Python wrapper using standard
+pip.</p>
+
+<h2 id="how-to-deploy-a-c-shared-library-package">How to deploy a C++ shared library package</h2>
+
+<p>I first created a source tar ball for release on <a href="https://github.com/gpldecha/non-parametric-regression/releases">github</a>
+which I downloaded and extracted to my debian packaging work director:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">pwd</span>
+<span class="nv">$ </span>/home/username/ubuntu_packaging/npregression_package
+<span class="nv">$ </span><span class="nb">ls</span>
+<span class="nv">$ </span>non-parametric-regression-1.0 non-parametric-regression-1.0.tar.gz
+</code></pre></div></div>
+<p>I followed the same steps as in my previous post. When I run the command:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bzr dh-make libnpregression 1.0 non-parametric-regression-1.0.tar.gz
+</code></pre></div></div>
+
+<p>I made sure to choose the (l)ibrary option when prompted which type debian
+package I wanted. I proceed to build the library,</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./libnpregression<span class="nv">$ </span>bzr builddeb <span class="nt">--</span> <span class="nt">-us</span> <span class="nt">-uc</span>
+</code></pre></div></div>
+<p>however I encountered the following error:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+dh_install
+dh_install: libnpregression-dev missing files <span class="o">(</span>usr/lib/lib<span class="k">*</span>.a<span class="o">)</span>, aborting
+make: <span class="k">***</span> <span class="o">[</span>binary] Error 255
+dpkg-buildpackage: error: fakeroot debian/rules binary gave error <span class="nb">exit </span>status 2
+debuild: fatal error at line 1364:
+dpkg-buildpackage <span class="nt">-rfakeroot</span> <span class="nt">-D</span> <span class="nt">-us</span> <span class="nt">-uc</span> failed
+bzr: ERROR: The build failed.
+
+</code></pre></div></div>
+<p>There are two important files to edit:</p>
+
+<ul>
+  <li>
+    <p>libnpregression1.install</p>
+
+    <p>usr/lib/npr/lib*.so</p>
+  </li>
+  <li>
+    <p>libnpregression-dev.install</p>
+  </li>
+</ul>
+
+<p>usr/include/*</p>
+
+<p>All builds until the next error occurs:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+dh_shlibdeps
+dpkg-shlibdeps: error: no dependency information found <span class="k">for</span> /usr/local/lib/libarmadillo.so.5 <span class="o">(</span>used by debian/libnpregression1/usr/lib/npr/liblwr.so<span class="o">)</span>
+dh_shlibdeps: dpkg-shlibdeps <span class="nt">-Tdebian</span>/libnpregression1.substvars debian/libnpregression1/usr/lib/npr/liblwr.so returned <span class="nb">exit </span>code 2
+make: <span class="k">***</span> <span class="o">[</span>binary] Error 2
+dpkg-buildpackage: error: fakeroot debian/rules binary gave error <span class="nb">exit </span>status 2
+debuild: fatal error at line 1364:
+dpkg-buildpackage <span class="nt">-rfakeroot</span> <span class="nt">-D</span> <span class="nt">-us</span> <span class="nt">-uc</span> failed
+bzr: ERROR: The build failed.
+
+</code></pre></div></div>
+
+<h3 id="c-shared-library">C++ shared library</h3>
+
+<ul>
+  <li>
+    <p>The libraries themselves are put into a binary package named libfoo1 where foo is the name of the library and 1 is the version from the SONAME.</p>
+  </li>
+  <li>
+    <p>Development files from the package, such as header files, needed to compile programs against the library are put into a package called libfoo-dev.</p>
+  </li>
+</ul>
+
+<h2 id="how-to-deploy-a-python-wrapper-of-a-c-library">How to deploy a Python wrapper of a C++ library</h2>
+
+<h2 id="your-project-is-deployed">Your project is deployed</h2>
+
+<p>When a python package when deployed will typically reside on the <a href="https://pypi.python.org/pypi">Python Package Index</a>.</p>
+
+<h2 id="resources">resources</h2>
+
+<p><a href="https://www.netfort.gr.jp/~dancer/column/libpkg-guide/libpkg-guide.pdf">Debian Library Packaging guide</a></p>
+
+<p><a href="http://robotics.usc.edu/~ampereir/wordpress/?p=202">Tutorial on creating a distributable Python package using Setuptools with Boost-Python</a></p>
+:ET

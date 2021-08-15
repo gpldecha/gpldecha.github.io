@@ -1,0 +1,51 @@
+I"Ö	<!-- KaTeX -->
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+
+<h1 id="talks-and-tutorials-on-rl">Talks and tutorials on RL</h1>
+
+<ul>
+  <li>
+    <p><a href="http://media.nips.cc/Conferences/2015/tutorialslides/SuttonIntroRL-nips-2015-tutorial.pdf">Introduction to Reinforcement Learning with Function Approximation</a>:
+A tutorial given at <strong>NIPS 2015</strong> by Richard Sutton.</p>
+  </li>
+  <li>
+    <p><a href="http://icml.cc/2015/tutorials/PolicySearch.pdf">Policy Search: Methods and Applications</a>: A tutorial given at <strong>ICML 2015</strong> by Jan Peters and
+Gerhard Neumann.</p>
+  </li>
+  <li>
+    <p><a href="https://www.youtube.com/watch?v=8UKUC5Qx_uc">Representation and Learning Methods for Complex Outputs</a>: Talk <strong>NIPS 2014</strong> by Richard Sutton.</p>
+  </li>
+</ul>
+
+<h1 id="value-and-q-value-recursion">Value and Q-value recursion</h1>
+
+<p>There are two forms the expected reward for a given state is encoded:</p>
+
+<ul>
+  <li>v-function: \(V^{\pi}(s) = \mathbb{E}_{\pi} \left\{ \sum\limits_{k=0}^{\infty} \gamma^k r_{t+k+1} \lvert  s_t = s \right\}\)</li>
+  <li>q-function: \(Q^{\pi}(s,a) = \mathbb{E}_{\pi} \left\{ \sum\limits_{k=0}^{\infty} \gamma^k r_{t+k+1} \lvert  s_t = s, a_t = a \right\}\)</li>
+</ul>
+
+<p>The v-function is the expected reward given a state whilst the q-function is for a state and action.
+The recursive aspect of both these two functions can be derived from first principal and it can be shown that
+the v-function is a function of the q-function.</p>
+
+<p>See <a href="/ml/docs/RQV.pdf">RVQ.pdf</a> for the derivation of the recursion and the link between both functional forms.</p>
+
+<p>See <a href="/ml/docs/RL_Solutions_Chap3.pdf">RL_Solutions_Chap3.pdf</a> for the
+effect of sign and constants in the reward function.</p>
+
+<h1 id="policy-gradient-theorem">Policy Gradient Theorem</h1>
+
+\[a = \pi(s;\theta)\]
+
+<p>We want to find an expression for \(\Delta\theta\) which uses an estimator of the
+expected reward such as the action-value or advantage function.</p>
+
+<p><a href="https://homes.cs.washington.edu/~todorov/courses/amath579/reading/PolicyGradient.pdf">Policy Gradient Methods for
+Reinforcement Learning with Function
+Approximation</a> Proves that the gradient of a policy be derived when using a function approximator for either an
+action-value or advantage function.</p>
+
+<p>The key is to able to find an unbiased estimage of the gradient \(\Delta\theta\)</p>
+:ET
